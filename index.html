@@ -1,1 +1,52 @@
-Hello World
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebHID Barcode Scanner</title>
+    <style>
+        .table-container {
+            width: 100%; /* Adjust as needed */
+            overflow-x: auto; /* Enable horizontal scrolling */
+        }
+        .table-container table {
+            width: 800px; /* Fixed width for the table */
+            border-collapse: collapse;
+        }
+        .table-container th, .table-container td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebHID Barcode Scanner</h1>
+    <button id="connect-button">Connect to Barcode Scanner</button>
+    <div id="output"></div>
+
+    <!-- <button id="get-all-lds">Get All IDs</button> -->
+     <div>
+        <label>Barcode Data</label>
+        <input id="barcode-data"/>
+     </div>
+     
+    <div class="table-container">
+        <table id="idTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <button id="get-value">Get Value</button>
+    <input type="number" id="get-value-input" />
+    <button id="set-value">Set Value</button>
+
+    <script src="barcode-scanner-hid.js"></script>
+</body>
+</html>
