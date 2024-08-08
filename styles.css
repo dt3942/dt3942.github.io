@@ -92,3 +92,20 @@ h1 {
     align-items: center;
     gap: 10px;
 }
+
+.Image {
+    position: relative;
+    display: flex;
+   
+    margin-right: 0px;
+    left: 600px;
+    
+}
+
+.device-info {
+    position: relative;
+    margin-top: 10px;
+    text-align: left; /* Align text to the right */
+    margin-right: 0px;
+    left: 510px;
+}

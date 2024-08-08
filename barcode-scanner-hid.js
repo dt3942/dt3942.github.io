@@ -7,14 +7,26 @@ let multy_packet_param=true;
 let paramID;
 let paramType;
 let paramProperty;
+let paramTypestr;
+let paramPropertyStr;
 let paramValue=[];
 let paramValueStr;
-
 let multyPacketParam=false;
 let param_lenght_cur=0;
 let multy_param_offset=false;
 let multy_param_offset_res=false;
 let offset_count=1;
+let update_table_status=false
+
+//ScanerDetail
+let ModelNumber="MP700";
+let SerialNumber="h";
+let DOM="";
+let Firmware="";
+let config ="";
+let ColorCamera="";
+
+
 
 
 //Update current state of buttons
@@ -30,6 +42,11 @@ function updateButtonState(element) {
 updateButtonState('get-value');
 updateButtonState('set-value');
 
+
+
+
+
+
 document.getElementById('connect-button').addEventListener('click', async () => {
     try {
         const devices = await navigator.hid.requestDevice({
@@ -42,15 +59,19 @@ document.getElementById('connect-button').addEventListener('click', async () => 
         await device.open();
         device_connected = true;
 
+
         updateButtonState('get-value');
         updateButtonState('set-value');
         document.getElementById('output').innerText = 'Connected to barcode scanner';
         device.addEventListener('inputreport',handleInputReport);
+        
 
     } catch (error) {
         //console.error(error);
         document.getElementById('output').innerText = `Failed to connect to barcode scanner: ${error.message}`;
     }
+
+     statup();
 });
 //--------------------------------------------------------------------------------------------------
 function handleInputReport(event){
@@ -81,8 +102,6 @@ function processBarcodeData(data){
 
 function update_table(){
 
-    paramValueStr=paramValue.join(' ');
-
     const tableBody = document.querySelector('#idTable tbody');
     const row = document.createElement('tr');
     const cellId = document.createElement('td');
@@ -90,7 +109,7 @@ function update_table(){
     row.appendChild(cellId);
 
     const cellType = document.createElement('td');
-    cellType.textContent = paramType;//`0x${type.toString(16).padStart(2, '0')}`;
+    cellType.textContent =paramTypestr; //`0x${type.toString(16).padStart(2, '0')}`;
     row.appendChild(cellType);
 
     const cellProperty = document.createElement('td');
@@ -115,6 +134,7 @@ function update_table(){
 //-------------------------------------------------------------------------------------------------
 
 document.getElementById('get-value').addEventListener('click', async () => {
+  update_table_status=true;
   if (!device) {
    console.log("Device not connected.");
     return;
@@ -169,6 +189,7 @@ document.getElementById('set-value').addEventListener('click', async () => {
 // ---------------------------------------------------------------------------
 
 function processGetValueResponse_updated(data){
+  console.log("lenght :",data.getUint8(3));
   printDataViewContent(data);
   if(multyPacketParam==false){
 
@@ -186,15 +207,15 @@ function processGetValueResponse_updated(data){
       paramType = data.getUint8(8);
       paramProperty = data.getUint8(9);
 
-      if(data.getUint8(3) <= 0x15){ // Single packet param 
-          paramValue =copyToHexArray(data, 10,(data.getUint8(3))-10 );
-          addDataToTable(paramID,paramType,paramProperty,paramValue);
+      if(data.getUint8(3) <= 0x1D){ // Single packet param 
+          paramValue =copyToHexArray(data, 10,(data.getUint8(3))-8 );
+          addDataToTable();
        
       }
       else{  // multy packet params 
 
           multyPacketParam=true;
-          paramValue =copyToHexArray(data, 15,16 );
+          paramValue =copyToHexArray(data, 10,21 );
 
           if(data.getUint8(3) == 0xF0){
           multy_param_offset=true;
@@ -222,8 +243,9 @@ function processGetValueResponse_updated(data){
           return;
           }
           else{
-              paramValue=appendToHexArray(paramValue,data,2,data.getUint8(1)-2);
-              addDataToTable(paramID,paramType,paramProperty,paramValue);
+              
+              paramValue=appendToHexArray(paramValue,data,2,data.getUint8(1));
+              addDataToTable();
               multyPacketParam=false;
           }
       }
@@ -239,8 +261,9 @@ function processGetValueResponse_updated(data){
               multy_param_offset_res=false;
            }
            else if(data.getUint8(3) <=0x15){
-              paramValue=appendToHexArray(paramValue,data,15,data.getUint8(3));
-              addDataToTable(paramID,paramType,paramProperty,paramValue);
+              paramValue=appendToHexArray(paramValue,data,15,data.getUint8(3)-15);
+          
+              addDataToTable();
               multy_param_offset_res=false;
               multy_param_offset=false;
               multyPacketParam=false;
@@ -343,10 +366,110 @@ function processGetValueResponse_wraper(hexString){
     
   
   //---------------------------------------------------------------------------------------------------
-  function addDataToTable(ID, type, property, value) {
+  function addDataToTable() {
+
+         
+          offset_count=1;
+          paramPropertyStr=paramProperty;
+          paramTypestr= String.fromCharCode(paramType);
+
+          switch(paramTypestr) {
+
+            case 'A':
+              paramValue=paramValue.slice(5)
+              paramValueStr=paramValue.join(' ');
+              break;
+
+            case 'B':
+              paramValueStr=hexToUnsignedInt(paramValue[0])
+              break;
+
+            case 'C':
+              paramValueStr=hexToSignedInt(paramValue[0])
+              break;
+
+            case 'D':
+              paramValueStr=hexToDWord(paramValue);   
+              break;
+
+            case 'F':
+              paramValueStr=flagval(paramValue)
+              
+              break;
+
+            case 'I':
+              paramValueStr=hexToSWord(paramValue);   
+              break;
+
+            case 'L':
+              paramValueStr=hexToSDWord(paramValue);   
+              break;
+
+            case 'S':
+             paramValue=paramValue.slice(4)
+             paramValue = paramValue.slice(0, -3);
+             paramValueStr=paramValue.map(hex => String.fromCharCode(parseInt(hex, 16))).join('');
+             break;
+
+            case 'X':
+             paramValueStr=paramValue.map(hex => String.fromCharCode(parseInt(hex, 16))).join(''); 
+             break;
+ 
+            case 'W':
+            paramValueStr=hexToWord(paramValue);  
+            break;
+            
+            default:
+            paramValueStr=paramValue.join(' ');
+             
+          }
+
   
-          console.log("ID:", ID, "Type:", type, "Property:", property, "Value:", value, "\n");
+
+          console.log("ID:", paramID, "Type:", paramType, "Property:", paramProperty, "Value:", paramValueStr, "\n");
+
+          if(update_table_status){
           update_table();
+          update_table_status=false;
+          }
+          else{
+              
+
+            if(paramID=="2471"){
+              const hexArray = paramValueStr.match(/0x[0-9A-Fa-f]+/g);
+              const byteArray = hexArray.map(hex => parseInt(hex, 16));
+              drawImageFromByteArray_jpeg(byteArray);
+              }
+              else if(paramID=="533"){
+                 document.getElementById("scannerModel").innerText = "Model Number: " + paramValueStr;
+                 Request_parameter(534);
+              }
+    
+              else if(paramID=="534"){
+                document.getElementById("serialNum").innerText = "Serial Number: " + paramValueStr;
+                Request_parameter(535);
+                }
+    
+               else if(paramID=="535"){
+                  document.getElementById("dom").innerText = " D.O.M: " + paramValueStr;
+                  Request_parameter(20012);
+                }
+    
+              else if(paramID=="20012"){
+                  document.getElementById("frimware").innerText = "Firmware: " + paramValueStr;
+                  Request_parameter(616);
+              }
+    
+              else if(paramID=="616"){
+                document.getElementById("config").innerText = "Config: " + paramValueStr;
+                Request_parameter(2471);
+            }
+    
+
+
+
+          }
+
       
   }
 
@@ -384,4 +507,167 @@ function processGetValueResponse_wraper(hexString){
 
 
   }
+
+
+  //------------------------------------------------------------------
+
+  function hexToWord(hexArray) {
+    if (hexArray.length !== 2) {
+      throw new Error("Hex array must have exactly 2 bytes for WORD.");
+    }
+    const word = (hexArray[0] << 8) | hexArray[1];
+    return word.toString();
+  }
+
+
+
+  function hexToSWord(hexArray) {
+    if (hexArray.length !== 2) {
+      throw new Error("Hex array must have exactly 2 bytes for SWORD.");
+    }
+    let value = (hexArray[0] << 8) | hexArray[1];
+    if (value & 0x8000) {
+      value = value - 0x10000;
+    }
+    return value.toString();
+  }
+
+
+
+  function hexToDWord(hexArray) {
+    if (hexArray.length !== 4) {
+      throw new Error("Hex array must have exactly 4 bytes for DWORD.");
+    }
+    const dWord = (
+      (hexArray[0] << 24) |
+      (hexArray[1] << 16) |
+      (hexArray[2] << 8) |
+      hexArray[3]
+    ) >>> 0;
+    return dWord.toString();
+  }
+
+
+  function hexToSDWord(hexArray) {
+    if (hexArray.length !== 4) {
+      throw new Error("Hex array must have exactly 4 bytes for SDWORD.");
+    }
+    let value = (hexArray[0] << 24) |
+                (hexArray[1] << 16) |
+                (hexArray[2] << 8) |
+                hexArray[3];
+    if (value & 0x80000000) {
+      value = value - 0x100000000;
+    }
+    return value.toString();
+  }
+
+  function flagval(hexArray) {
+    if (hexArray.length !== 1) {
+      throw new Error("Hex array must have exactly 1 byte for comparison.");
+    }
+    const value = hexArray[0];
+    if(value==0x01){
+      return "True";
+    }
+      else{
+        return "False";
+      }
+    }
+  
+
+
+function hexToUnsignedInt(hexValue) {
+    const unsignedInt = parseInt(hexValue, 16);
+    return unsignedInt.toString();
+}
+
+function hexToSignedInt(hexValue) {
+
+    const signedInt = parseInt(hexValue, 16);
+    const max32BitInt = 0xFFFFFFFF;
+    const signed32BitInt = signedInt > 0x7FFFFFFF ? signedInt - max32BitInt - 1 : signedInt;
+    return signed32BitInt.toString();
+}
+
+
+function drawImageFromByteArray(byteArray) {
+  const canvas = document.getElementById('myCanvas');
+  const context = canvas.getContext('2d');
+  const imgData = context.createImageData(canvas.width, canvas.height);
+  
+  for (let i = 0; i < byteArray.length; i += 3) {
+      const r = byteArray[i];
+      const g = byteArray[i + 1];
+      const b = byteArray[i + 2];
+      
+      const index = (i / 3) * 4;
+      imgData.data[index] = r;
+      imgData.data[index + 1] = g;
+      imgData.data[index + 2] = b;
+      imgData.data[index + 3] = 255; // Alpha value (255 is fully opaque)
+  }
+  
+  context.putImageData(imgData, 0, 0);
+}
+
+function drawImageFromByteArray_jpeg(byteArray) {
+  const canvas = document.getElementById('myCanvas');
+  const context = canvas.getContext('2d');
+
+  // Convert the byte array to a blob
+  const blob = new Blob([new Uint8Array(byteArray)], { type: 'image/jpeg' });
+
+  // Create a data URL from the blob
+  const url = URL.createObjectURL(blob);
+
+  // Load the image
+  const img = new Image();
+  img.onload = function() {
+    // Draw the image on the canvas
+    canvas.width = img.width;
+    canvas.height = img.height;
+    context.drawImage(img, 0, 0);
+    
+    // Clean up the object URL
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+
+
+// Draw the image on the canvas
+
+async function statup(){
+  await Request_parameter(533);
+
+  
+}
+
+
+async function Request_parameter(param_num){
+
+  if (!device) {
+    console.log("Device not connected.");
+     return;
+   }
+   const byte1 = (param_num >> 8) & 0xFF;  // Extract the high byte
+   const byte2 = param_num & 0xFF;
+   const reportId = 0x0D; // Report ID in hexadecimal
+   const data = [
+     0x40, 0x00, 0x06, 0x00, 0x06, 0x02, 0x00, 
+     byte1, byte2, 0x00, 0x00, 0x00, 0x00, 0x00, 
+     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+     0x00, 0x00, 0x00
+   ];
+ 
+   try {
+     get_value_response = true;
+     await device.sendReport(reportId, new Uint8Array(data));
+     console.log("Request Report sent successfully.");
+   } catch (error) {
+     console.error("Error sending report:", error);
+   }
+}
 
