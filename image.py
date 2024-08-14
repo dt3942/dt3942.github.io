@@ -2,7 +2,7 @@ from PIL import Image
 import io
 
 # Load the image
-image_path = 'image2.jpg'
+image_path = 'image.jpg'
 image = Image.open(image_path)
 
 # Convert the image to bytes

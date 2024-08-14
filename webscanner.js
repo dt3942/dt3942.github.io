@@ -1,3 +1,6 @@
+//______________________________________________________________________________________________________
+
+
 let device;
 let device_connected = false;
 let get_value_response = false;
@@ -16,7 +19,7 @@ let param_lenght_cur=0;
 let multy_param_offset=false;
 let multy_param_offset_res=false;
 let offset_count=1;
-let update_table_status=false
+let startup=true;
 
 //ScanerDetail
 let ModelNumber="MP700";
@@ -39,39 +42,68 @@ function updateButtonState(element) {
     }
 }
 
-updateButtonState('get-value');
-updateButtonState('set-value');
+//updateButtonState('get-value');
+//updateButtonState('set-value');
 
 
 
 
+//----------------------------------------------------------------------------
 
+document.getElementById('discover-button').addEventListener('click', async () => {
+  try {
+      const devices = await navigator.hid.requestDevice({
+          filters: [{ vendorId: 0x05e0 }] // Replace with the correct vendorId
+      });
 
+      if (devices.length === 0) {
+          throw new Error('No devices found');
+      }
+
+       console.log(devices);
+
+      // Populate the dropdown with discovered devices
+      const dropdown = document.getElementById('device-dropdown');
+      dropdown.innerHTML = ''; // Clear any previous entries
+      devices.forEach((device, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.text = `${device.productName} (${device.vendorId.toString(16)})`;
+          dropdown.appendChild(option);
+      });
+
+      // Display the dropdown and connect button
+      dropdown.style.display = 'block';
+      
+      
+  } catch (error) {
+      document.getElementById('output').innerText = `Failed to discover devices: ${error.message}`;
+  }
+});
+
+// Handle Connect to Selected Device
 document.getElementById('connect-button').addEventListener('click', async () => {
-    try {
-        const devices = await navigator.hid.requestDevice({
-            filters: [{ vendorId: 0x05e0 }] // Replace with the correct vendorId
-        });
-        if (devices.length === 0) {
-            throw new Error('No device selected');
-        }
-        device = devices[0];
-        await device.open();
-        device_connected = true;
+  try {
+      const dropdown = document.getElementById('device-dropdown');
+      const selectedDeviceIndex = dropdown.value;
+      const devices = await navigator.hid.getDevices();
+      
+      if (!devices[selectedDeviceIndex]) {
+          throw new Error('Selected device not available');
+      }
 
+      device = devices[selectedDeviceIndex];
+      await device.open();
+      device_connected = true;
 
-        updateButtonState('get-value');
-        updateButtonState('set-value');
-        document.getElementById('output').innerText = 'Connected to barcode scanner';
-        device.addEventListener('inputreport',handleInputReport);
-        
+      document.getElementById('output').innerText = `Connected to ${device.productName}`;
+      device.addEventListener('inputreport', handleInputReport);
 
-    } catch (error) {
-        //console.error(error);
-        document.getElementById('output').innerText = `Failed to connect to barcode scanner: ${error.message}`;
-    }
+  } catch (error) {
+      document.getElementById('output').innerText = `Failed to connect to device: ${error.message}`;
+  }
 
-     statup();
+  statup();
 });
 //--------------------------------------------------------------------------------------------------
 function handleInputReport(event){
@@ -393,6 +425,7 @@ function processGetValueResponse_wraper(hexString){
               break;
 
             case 'F':
+              paramValue=paramValue.slice(0,-2)
               paramValueStr=flagval(paramValue)
               
               break;
@@ -428,45 +461,13 @@ function processGetValueResponse_wraper(hexString){
 
           console.log("ID:", paramID, "Type:", paramType, "Property:", paramProperty, "Value:", paramValueStr, "\n");
 
-          if(update_table_status){
-          update_table();
-          update_table_status=false;
+          if(startup){
+           
+          updateDeviceInfo(paramID,paramValueStr);
+         
           }
           else{
-              
-
-            if(paramID=="2471"){
-              const hexArray = paramValueStr.match(/0x[0-9A-Fa-f]+/g);
-              const byteArray = hexArray.map(hex => parseInt(hex, 16));
-              drawImageFromByteArray_jpeg(byteArray);
-              }
-              else if(paramID=="533"){
-                 document.getElementById("scannerModel").innerText = "Model Number: " + paramValueStr;
-                 Request_parameter(534);
-              }
-    
-              else if(paramID=="534"){
-                document.getElementById("serialNum").innerText = "Serial Number: " + paramValueStr;
-                Request_parameter(535);
-                }
-    
-               else if(paramID=="535"){
-                  document.getElementById("dom").innerText = " D.O.M: " + paramValueStr;
-                  Request_parameter(20012);
-                }
-    
-              else if(paramID=="20012"){
-                  document.getElementById("frimware").innerText = "Firmware: " + paramValueStr;
-                  Request_parameter(616);
-              }
-    
-              else if(paramID=="616"){
-                document.getElementById("config").innerText = "Config: " + paramValueStr;
-                Request_parameter(2471);
-            }
-    
-
-
+            update_table();
 
           }
 
@@ -591,40 +592,16 @@ function hexToSignedInt(hexValue) {
 }
 
 
-function drawImageFromByteArray(byteArray) {
-  const canvas = document.getElementById('myCanvas');
-  const context = canvas.getContext('2d');
-  const imgData = context.createImageData(canvas.width, canvas.height);
-  
-  for (let i = 0; i < byteArray.length; i += 3) {
-      const r = byteArray[i];
-      const g = byteArray[i + 1];
-      const b = byteArray[i + 2];
-      
-      const index = (i / 3) * 4;
-      imgData.data[index] = r;
-      imgData.data[index + 1] = g;
-      imgData.data[index + 2] = b;
-      imgData.data[index + 3] = 255; // Alpha value (255 is fully opaque)
-  }
-  
-  context.putImageData(imgData, 0, 0);
-}
 
 function drawImageFromByteArray_jpeg(byteArray) {
-  const canvas = document.getElementById('myCanvas');
+  const canvas = document.getElementById('Canvas');
   const context = canvas.getContext('2d');
 
-  // Convert the byte array to a blob
   const blob = new Blob([new Uint8Array(byteArray)], { type: 'image/jpeg' });
 
-  // Create a data URL from the blob
   const url = URL.createObjectURL(blob);
-
-  // Load the image
   const img = new Image();
   img.onload = function() {
-    // Draw the image on the canvas
     canvas.width = img.width;
     canvas.height = img.height;
     context.drawImage(img, 0, 0);
@@ -671,3 +648,38 @@ async function Request_parameter(param_num){
    }
 }
 
+function updateDeviceInfo(paramID,paramValueStr){
+  
+  if(paramID=="2471"){
+    const hexArray = paramValueStr.match(/0x[0-9A-Fa-f]+/g);
+    const byteArray = hexArray.map(hex => parseInt(hex, 16));
+    drawImageFromByteArray_jpeg(byteArray);
+    startup=false
+    }
+    else if(paramID=="533"){
+       document.getElementById("scannerModel").innerText =paramValueStr;
+       Request_parameter(534);
+    }
+
+    else if(paramID=="534"){
+      document.getElementById("serialNum").innerText =  paramValueStr;
+      Request_parameter(535);
+      }
+
+     else if(paramID=="535"){
+        document.getElementById("dom").innerText = paramValueStr;
+        Request_parameter(20012);
+      }
+
+    else if(paramID=="20012"){
+        document.getElementById("frimware").innerText =  paramValueStr;
+        Request_parameter(616);
+    }
+
+    else if(paramID=="616"){
+      document.getElementById("config").innerText = paramValueStr;
+      Request_parameter(2471);
+     
+  }
+
+}

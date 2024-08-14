@@ -1,111 +1,306 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
     margin: 0;
     padding: 0;
+    background-color: #f8f9fa;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.app {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+header {
+    display: flex;
+    align-items: center; 
+    padding: 10px 20px;
+    border-bottom: 2px solid #ccc;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    width: 300px;
+    margin-right: 10px;
 }
 
 h1 {
-    text-align: center;
-    color: #4CAF50;
+    font-size: 24px;
+    color: #007bff;
+    flex-grow: 1;
 }
 
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 10px 0;
-    font-size: 16px;
-    color: #fff;
-    background-color: #4CAF50;
-    border: none;
+.logout {
+    background-color: #ffffff;
+    position: relative;
+    color: #007bff;
+    border: 2px solid #007bff;
+    padding: 5px 15px;
     border-radius: 5px;
+    cursor: pointer;
+    left: 1020px;
+    
+}
+
+.actions {
+    margin: 80px 0 20px 0; /* Add margin to offset fixed header */
+    position: relative;
+    top: 30px;
+    left: 20px;
+    display: flex;
+    width: 720px;
+    justify-content: space-around;
+}
+
+.action-button {
+    width: 165px; /* Adjust width as needed */
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #5fa0e6; /* Blue border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #476dcd; /* Light blue background */
+    color: #f3f7fa; /* Dark blue text */
+    font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.button:hover {
-    background-color: #45a049;
+
+.action-button:hover {
+    background-color: #1b52d0;
 }
 
-.input {
-    width: calc(100% - 22px);
+
+.dropdown {
+    padding-right: 40px;
+    position: relative;
+    width: 200px;
+    
+}
+
+.dropdown::after {
+    content: '\25BC';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: background-color 0.3s ease;
+}
+.device-dropdown:hover{
+  background-color: #1b52d0;
+}
+
+
+
+.output-status{
+    position: relative;
+    left: 30px;
+    font-size: 15;
+
+}
+
+.main-content {
+    display: flex;
+    flex-grow: 1;
+    padding: 0 10px;
+}
+
+.scanner-info {
+    
+    padding-right: 20px;
+    position: relative;
+    top: 50px;
+    left:20px
+}
+
+.canvas-image {
+
+    position: relative;
+    left: 50px;
+}
+.scanner-info2 {
+    
+    padding-right: 20px;
+    position: relative;
+    top: 250px;
+   
+}
+
+.scanner-info ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.6;
+}
+
+
+.scanner-info2 ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.barcode-section {
+  
+    padding-left: 20px;
+    position: relative;
+    top: 50px;
+    left: 300px;
+    
+}
+
+.barcode-area{
+    width: 550px;
+    height: 80px;
     padding: 10px;
-    margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.input-container {
-    margin-bottom: 20px;
+.rsm-section{
+
+    padding-left: 20px;
+    position: relative;
+    top: 100px;
+    left: 300px;
+
 }
 
-.label {
+
+
+
+label {
     font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
 }
 
-.styled-table {
+textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+
+table {
     width: 100%;
     border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
     text-align: left;
-    border: 1px solid #ddd;
 }
 
-.styled-table thead tr {
-    background-color: #f2f2f2;
-    border-bottom: 1px solid #ddd;
+th {
+    background-color: #959db0;
+    color: white;
 }
 
-.styled-table th, .styled-table td {
-    padding: 12px 15px;
-}
-
-.styled-table tbody tr {
-    border-bottom: 1px solid #ddd;
-}
-
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f9f9f9;
-}
-
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #4CAF50;
-}
-
-.styled-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.action-buttons {
+.rsm-actions {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    
+   gap: 10px;
+    left: 0px;
 }
 
-.Image {
+
+.set-button{
     position: relative;
-    display: flex;
+    left: 180px;
+
+    width: 100px; /* Adjust width as needed */
+    height: 35px;
    
-    margin-right: 0px;
-    left: 600px;
+    border: 1px solid #5e7bc4   ; /* Blue border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #5e7bc4; /* Light blue background */
+    color: #f2f8fb; /* Dark blue text */
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.set-button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb;
+
+
+}
+
+
+.get-button{
+
+    width: 100px; /* Adjust width as needed */
+    height: 35px;
+    padding: 10px;
+    border: 1px solid #5e7bc4; /* Blue border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #5e7bc4; /* Light blue background */
+    color: #f3f6f8; /* Dark blue text */
+    font-size: 12px;
+    cursor: pointer;
+    
     
 }
 
-.device-info {
-    position: relative;
-    margin-top: 10px;
-    text-align: left; /* Align text to the right */
-    margin-right: 0px;
-    left: 510px;
+.get-button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb;
+
+
 }
+ 
+
+footer {
+    text-align: center;
+    padding: 10px 20px;
+    border-top: 2px solid #ccc;
+    background-color: #ffffff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    color: #007bff;
+}
+
+
+select {
+    width: 200px; /* Adjust width as needed */
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #007BFF; /* Blue border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #476dcd; /* Light blue background */
+    color: #f3f5f6; /* Dark blue text */
+    font-size: 16px;
+    cursor: pointer;
+
+
+  }.output-status{
+    font-size: 15;
+    color: #007BFF;
+  }
+  
+  select:focus {
+    border-color: #0056b3; /* Darker blue when focused */
+    outline: none;
+  }
+  
+  option {
+    background-color: #E3F2FD; /* Match the dropdown background */
+    color: #0277BD; /* Match the text color */
+  }
+  

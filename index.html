@@ -1,58 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebHID Barcode Scanner</title>
+    <title>Zebra Web Scanner</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="app">
-        <h1>WebHID Barcode Scanner</h1>
+    <div class="container">
+        <header>
+            <img src="logo.png" alt="Zebra Logo" class="logo">
+            <button class="logout">Logout</button>
+        </header>
+        <div class="actions">
+            <button  id="discover-button"  class="action-button">Discover Scanners</button>
+            <p>Select Scanner  :</p>
+            <select id="device-dropdown" class="device-dropdown">
+                <option value="" disabled selected>Select a Scanner</option>
 
-        <button id="connect-button" class="button">Connect to Barcode Scanner</button>
-        <div id="output" class="output"></div>
+              </select>
 
-        <div class="Image">
-            
-            <canvas id="myCanvas" width="200" height="200"></canvas>
-        </div>
-
-        <div class="device-info"> 
-            <p id="scannerModel"> </p>
-            <p id="serialNum"></p>
-            <p id="dom"> </p>
-            <p id="frimware"></p>
-            <p id="config"></p>
-        </div>
-
-        <div class="input-container">
-            <label for="barcode-data">Barcode Data</label>
-            <input id="barcode-data" class="input"/>
-        </div>
+              <button  id="connect-button"  class="action-button">Connect</button>
+         </div>
+        <div class="output-status">
+         <p   id="output"></p>
+         </div>
         
-        <div class="table-container">
-            <table id="idTable" class="styled-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Type</th>
-                        <th>Property</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class="action-buttons">
-            <button id="get-value" class="button">Get Value</button>
-            <input type="number" id="get-value-input" class="input" />
-            <button id="set-value" class="button">Set Value</button>
-        </div>
+       
+        <div class="main-content">
+            <div class="scanner-info">
+                <canvas class="canvas-image" id="Canvas" width="200" height="200"></canvas>
+                <ul>
+                    <li ><strong>Scanner Model &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> </li>
+                    <li ><strong>Serial Number  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> </li>
+                    <li ><strong>D.O.M  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;              :</strong> </li>
+                    <li ><strong>Firmware version  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      :</strong> </li>
+                    <li><strong>Configuration   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;       :</strong> </li>
+                    <li><strong>Color Camera    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;         :</strong> </li>
+                    <li><strong>Power Up Count  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        :</strong> </li>
+                    <li><strong>Total Decode Count  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    :</strong> </li>
+                    <li><strong>Battery Stage of charge :</strong> </li>
+                </ul>
+            </div>
 
-        <script src="barcode-scanner-hid.js"></script>
+            <div class="scanner-info2">
+                
+                <ul>
+                    <li id="scannerModel"> </li>
+                    <li id="serialNum"> </li>
+                    <li id="dom"> </li>
+                    <li id="frimware"> </li>
+                    <li id="config"> </li>
+                    <li id="camera"></li>
+                    <li id="power-count"></li>
+                    <li id="decode-count"> </li>
+                    <li id="battery"></li>
+                </ul>
+            </div>
+
+
+            <div class="right-aection">
+            <div class="barcode-section">
+                <label for="barcode">Barcode Data</label>
+                <input class="barcode-area" id="barcode-data"></input>
+            </div>
+
+            <div class="rsm-section">
+                <label for="idTable">RSM</label>
+                <table id="idTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="rsm-actions">
+                    <button id="get-value" class="get-button">Get Value</button>
+                    <input  id="get-value-input" type="text" placeholder="Set value">
+                    <button id="set-value" class="set-button">Set value</button>
+                </div>
+            </div>
+            </div>
+       </div>
     </div>
+    <footer>
+        <p>&copy; 2024 Zebra Technologies</p>
+    </footer>
+
+    <script src="webscanner.js"></script>
 </body>
 </html>
