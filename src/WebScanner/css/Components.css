@@ -1,0 +1,229 @@
+/*Barcode data section-----------------------------------------------------------------------------------------*/
+
+.barcode-section {
+  
+    padding-left: 20px;
+    position: relative;
+    top: 50px;
+    left: 300px;   
+}
+
+.barcode-area{
+    width: 550px;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/*RMS section -----------------------------------------------------------------------------------*/
+
+
+.rsm-section{
+
+    padding-left: 20px;
+    position: relative;
+    top: 100px;
+    left: 300px;
+
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #959db0;
+    color: white;
+}
+
+#idTable tbody tr {
+    cursor: pointer;
+}
+.selected {
+    background-color: #b5b1b1;
+}
+
+.rsm-actions {
+    display: flex;
+    
+   gap: 10px;
+    left: 0px;
+}
+
+
+.set-button{
+    position: relative;
+    left: 70px;
+    width: 100px; 
+    height: 35px;
+    border: 1px solid #5e7bc4   ; 
+    border-radius: 5px; 
+    background-color: #5e7bc4; 
+    color: #f2f8fb; 
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.set-button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb
+
+}
+
+.set-button:disabled{
+
+    background-color: #dddfe4;
+    border: 1px solid #b8bcc0; 
+
+}
+.store-button{
+    position: relative;
+    left: 70px;
+    width: 100px; 
+    height: 35px;
+   
+    border: 1px solid #5e7bc4   ; 
+    border-radius: 5px; 
+    background-color: #5e7bc4; 
+    color: #f2f8fb; 
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.store-button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb
+
+}
+
+.store-button:disabled{
+
+    background-color: #dddfe4;
+    border: 1px solid #b8bcc0; 
+
+}
+
+.get-button{
+
+    width: 100px;
+    height: 35px;
+    padding: 10px;
+    border: 1px solid #5e7bc4;
+    border-radius: 5px; 
+    background-color: #5e7bc4; 
+    color: #f3f6f8; 
+    font-size: 12px;
+    cursor: pointer;  
+}
+
+.get-button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb;
+}
+
+.get-button:disabled{
+
+    background-color: #dddfe4;
+    border: 1px solid #b8bcc0; 
+
+}
+
+
+ 
+/*Firmware download section -----------------------------------------------------------------------------------*/
+
+.fw-upload-section{
+    padding-left: 20px;
+    position: relative;
+    top: 200px;
+    left: 300px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.input-group input[type="text"] {
+    flex: 1;
+    padding: 5px;
+}
+.input-group input[type="file"] {
+    display: none;
+}
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.button-group {
+    position: relative;
+    left:  320px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 250px;
+}
+.button-group button {
+    padding: 10px 20px;
+    border: 1px solid #5e7bc4; 
+    border-radius: 5px;
+    background-color: #5e7bc4; 
+    color: #f3f6f8; 
+    font-size: 12px;
+    cursor: pointer;
+    
+}
+
+.button-group button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb;
+}
+
+.button-group button:disabled{
+
+    background-color: #dddfe4;
+    border: 1px solid #b8bcc0; 
+
+}
+
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    position: relative;
+}
+.progress-bar-inner {
+    height: 100%;
+    width: 0;
+    background-color: #4caf50;
+    text-align: center;
+    color: white;
+    line-height: 20px;
+
+}

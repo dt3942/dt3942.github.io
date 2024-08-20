@@ -1,0 +1,252 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+header {
+    display: flex;
+    align-items: center; 
+    padding: 10px 20px;
+    border-bottom: 2px solid #ccc;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    width: 300px;
+    margin-right: 10px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #007bff;
+    flex-grow: 1;
+}
+
+.logout {
+    background-color: #ffffff;
+    position: relative;
+    color: #007bff;
+    border: 2px solid #007bff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    left: 72%;  
+}
+
+.actions {
+    margin: 80px 0 20px 0; 
+    position: relative;
+    top: 30px;
+    left: 20px;
+    display: flex;
+    width: 800px;
+    justify-content: space-around;
+}
+
+.action-button {
+    width: 165px; 
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #5fa0e6; 
+    border-radius: 5px; 
+    background-color: #476dcd; 
+    color: #f3f7fa; 
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.action-button:hover {
+    background-color: #1b52d0;
+}
+
+
+.action-button:disabled{
+
+    background-color: #dddfe4;
+    border: 1px solid #b8bcc0; 
+
+}
+.dropdown::after {
+    content: '\25BC';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: background-color 0.3s ease;
+}
+.device-dropdown:hover{
+  background-color: #aeafb3;
+}
+
+.output-status{
+    position: relative;
+    left: 30px;
+    font-size: 15;
+}
+
+.main-content {
+    display: flex;
+    flex-grow: 1;
+    padding: 0 10px;
+}
+
+.scanner-info {
+    
+    padding-right: 20px;
+    position: relative;
+    top: 50px;
+    left:20px
+}
+
+.canvas-image {
+
+    position: relative;
+    left: 50px;
+}
+.scanner-info2 {
+    
+    padding-right: 20px;
+    position: relative;
+    top: 155px;  
+}
+
+.scanner-info ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.6;
+}
+
+
+.scanner-info2 ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.6;
+}
+
+
+footer {
+    text-align: center;
+    padding: 10px 15px;
+    border-top: 2px solid #ccc;
+    background-color: #ffffff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    color: #007bff;
+}
+
+
+select {
+    width: 200px; 
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #47494b; 
+    border-radius: 5px; 
+    background-color: #f1f1f1; 
+    color: #101011; 
+    font-size: 16px;
+    cursor: pointer;
+
+
+  }.output-status{
+    font-size: 15;
+    color: #e84c4c;
+  }
+  
+  select:focus {
+    border-color: #0056b3; 
+    outline: none;
+  }
+  
+  option {
+    background-color: #E3F2FD; 
+    color: #0277BD; 
+  }
+
+
+
+  /* Allert*/
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999; /* Ensure it covers the entire page */
+}
+
+/* Custom alert modal */
+#custom-alert {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Ensure it appears above the overlay */
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    height: 150px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+#custom-alert h2 {
+    margin: 0 0 10px;
+}
+
+#custom-alert p {
+    margin: 0 0 20px;
+}
+
+#custom-alert button {
+    position: relative;
+    top: 35px;
+    left: 140px;
+    padding: 10px 20px; 
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#custom-alert button:hover {
+    background-color: #0056b3;
+}
+
+.alert-msg{
+    color: red;
+
+}
+
+
+.alert-title{
+    color: rgb(12, 32, 64);
+    
+}
+  
