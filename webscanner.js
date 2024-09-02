@@ -1,7 +1,24 @@
-//______________________________________________________________________________________________________
+/********************************************************************* 
+*                       
+*  Filename           :  Webscanner.js     
+* 
+*  Copyright(c)       :  Zebra Technologies, 2024
+*   
+*  Description        :  ZebraWeb scanner      
+* 
+*  Author             :  Tharindu Rathnayaka
+* 
+*  Creation Date      :  2/23/2024 
+* 
+*  Derived From:      :
+* 
+*  Edit History:      :
+*        
+**********************************************************************/
 
-
+// Global variables
 let device;
+let barcode_device;
 let device_connected = false;
 let get_value_response = false;
 const attribute = new Set();
@@ -20,19 +37,16 @@ let multy_param_offset=false;
 let multy_param_offset_res=false;
 let offset_count=1;
 let startup=true;
-
-//ScanerDetail
-let ModelNumber="MP700";
-let SerialNumber="h";
+let ModelNumber="";
+let SerialNumber="";
 let DOM="";
 let Firmware="";
 let config ="";
 let ColorCamera="";
 
 
-
-
 //Update current state of buttons
+
 function updateButtonState(element) {
     const button = document.getElementById(element);
     if (device_connected) {
@@ -45,71 +59,76 @@ function updateButtonState(element) {
 //updateButtonState('get-value');
 //updateButtonState('set-value');
 
-
-
-
-//----------------------------------------------------------------------------
-
+// Discover HID Devices-------------------------------------------------------------------------
 document.getElementById('discover-button').addEventListener('click', async () => {
+
+
   try {
-      const devices = await navigator.hid.requestDevice({
-          filters: [{ vendorId: 0x05e0 }] // Replace with the correct vendorId
-      });
+    const devices = await navigator.hid.requestDevice({
+        filters: [{ vendorId: 0x05e0 }]  // Optional: Add filters to narrow down the list of devices
+    });
 
-      if (devices.length === 0) {
-          throw new Error('No devices found');
-      }
-
-       console.log(devices);
-
-      // Populate the dropdown with discovered devices
-      const dropdown = document.getElementById('device-dropdown');
-      dropdown.innerHTML = ''; // Clear any previous entries
-      devices.forEach((device, index) => {
-          const option = document.createElement('option');
-          option.value = index;
-          option.text = `${device.productName} (${device.vendorId.toString(16)})`;
-          dropdown.appendChild(option);
-      });
-
-      // Display the dropdown and connect button
-      dropdown.style.display = 'block';
-      
-      
-  } catch (error) {
+    if (devices.length === 0) {
+        throw new Error('No devices selected');
+    }
+  }
+    catch (error) {
       document.getElementById('output').innerText = `Failed to discover devices: ${error.message}`;
   }
-});
-
-// Handle Connect to Selected Device
-document.getElementById('connect-button').addEventListener('click', async () => {
   try {
-      const dropdown = document.getElementById('device-dropdown');
-      const selectedDeviceIndex = dropdown.value;
-      const devices = await navigator.hid.getDevices();
-      
-      if (!devices[selectedDeviceIndex]) {
-          throw new Error('Selected device not available');
-      }
+    const devices = await navigator.hid.getDevices(); // Get already authorized devices
 
-      device = devices[selectedDeviceIndex];
-      await device.open();
-      device_connected = true;
+    if (devices.length === 0) {
+        throw new Error('No devices found');
+    }
+    console.log(devices);
 
-      document.getElementById('output').innerText = `Connected to ${device.productName}`;
-      device.addEventListener('inputreport', handleInputReport);
+    const dropdown = document.getElementById('device-dropdown');
+    dropdown.innerHTML = '';
+    devices.forEach((device, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.text = `${device.productName} (${device.vendorId.toString(16)})`;
+        dropdown.appendChild(option);
+    });
 
-  } catch (error) {
-      document.getElementById('output').innerText = `Failed to connect to device: ${error.message}`;
-  }
-
-  statup();
+    dropdown.style.display = 'block';     
+    
+} catch (error) {
+    document.getElementById('output').innerText = `Failed to discover devices: ${error.message}`;
+}
 });
-//--------------------------------------------------------------------------------------------------
+
+// Handle Connect to Selected Device----------------------------------------------------------------------
+document.getElementById('connect-button').addEventListener('click', async () => {
+try {
+    const dropdown = document.getElementById('device-dropdown');
+    const selectedDeviceIndex = dropdown.value;
+    const devices = await navigator.hid.getDevices();
+
+    if (!devices[selectedDeviceIndex]) {
+        throw new Error('Selected device not available');
+    }
+
+    const device = devices[selectedDeviceIndex];
+    await device.open();  // This automatically connects to the 0th interface
+    console.log(device);
+
+    document.getElementById('output').innerText = `Connected to ${device.productName}`;
+    device.addEventListener('inputreport', handleInputReport);
+
+} catch (error) {
+    document.getElementById('output').innerText = `Failed to connect to device: ${error.message}`;
+}
+
+ statup();
+});
+
+//Handle Interrupt Report-----------------------------------------------------------------------------------
 function handleInputReport(event){
-  //console.log(event);
+  
   const { data, reportId } = event;
-  if(get_value_response && reportId == 0x27){
+  if(get_value_response && reportId == 0x27){     
     get_value_response = false;
   
     processGetValueResponse_updated(data);
@@ -118,7 +137,7 @@ function handleInputReport(event){
     processBarcodeData(data);
   }
 }
-//---------------------------------------------------------------------------------------------------
+//Process barcode data ------------------------------------------------------------------------------------
 function processBarcodeData(data){
   let barcodeData = '';
   for (let i = 5; i < 5 + data.getUint8(2) ; i++) {
@@ -127,11 +146,26 @@ function processBarcodeData(data){
   const barcodeInput = document.getElementById('barcode-data');
   barcodeInput.type = 'text';
   barcodeInput.value = barcodeData;
+
 }
-//--------------------------------------------------------------------------------------------------
 
+// Handle Interrupt Report for Command Device----------------------------------------------------------------
+function handleCommandInputReport(event) {
+  const { data, reportId } = event;
+  if (get_value_response && reportId == 0x27) {
+    get_value_response = false;
+    Commands(data);
+  }
+}
 
-
+// Handle Interrupt Report for Barcode Device-------------------------------------------------------------------
+function handleBarcodeInputReport(event) {
+  const { data, reportId } = event;
+  if (data.getUint8(0) == 0x01 && reportId == 0x22) {
+    Get_barcode_data(data);
+  }
+}
+// Update parametertable ---------------------------------------------------------------------------------------
 function update_table(){
 
     const tableBody = document.querySelector('#idTable tbody');
@@ -141,29 +175,28 @@ function update_table(){
     row.appendChild(cellId);
 
     const cellType = document.createElement('td');
-    cellType.textContent =paramTypestr; //`0x${type.toString(16).padStart(2, '0')}`;
+    cellType.textContent =paramTypestr; 
     row.appendChild(cellType);
 
     const cellProperty = document.createElement('td');
-    cellProperty.textContent = paramProperty; //`0x${property.toString(16).padStart(2, '0')}`;
+    cellProperty.textContent = paramProperty; 
     row.appendChild(cellProperty);
 
     const cellValue = document.createElement('td');
     const inputValue = document.createElement('input');
     inputValue.type = 'text';
     inputValue.value = paramValueStr;
-    inputValue.setAttribute('data-id', paramID); // Adding a data attribute for easy identification
+    inputValue.setAttribute('data-id', paramID); 
     inputValue.addEventListener('change', () => {
-      editedRows.add(paramID); // Mark row as edited when value changes
+      editedRows.add(paramID); 
     });
     cellValue.appendChild(inputValue);
     row.appendChild(cellValue);
-
     tableBody.appendChild(row);
 
 }
 
-//-------------------------------------------------------------------------------------------------
+//Get Parameter ---------------------------------------------------------------------------------------------
 
 document.getElementById('get-value').addEventListener('click', async () => {
   update_table_status=true;
@@ -192,7 +225,7 @@ document.getElementById('get-value').addEventListener('click', async () => {
   }
 });
 
-//-----------------------------------------------------------------------------------------------------
+// Set Parameter ------------------------------------------------------------------------------------------
 
 document.getElementById('set-value').addEventListener('click', async () => {
   const table = document.getElementById('idTable');
@@ -210,116 +243,97 @@ document.getElementById('set-value').addEventListener('click', async () => {
           updatedData.push({ id, type, property, value });
       }
   }
-
   if(!updatedData){
     return;
   }
-
   console.log(updatedData); 
 });
 
-// ---------------------------------------------------------------------------
-
+// Process Parameter Data  ------------------------------------------------------------------------------
 function processGetValueResponse_updated(data){
   console.log("lenght :",data.getUint8(3));
   printDataViewContent(data);
+
   if(multyPacketParam==false){
 
-  if (data.getUint8(4) == 0x02){
-
-      //Get param id
+    if (data.getUint8(4) == 0x02){ // Get Parameter value
       const highByte = data.getUint8(6);   
       const lowByte = data.getUint8(7); 
       
        paramID = (highByte << 8) | lowByte;
       if (paramID == 0xffff){
-        return;
+          return;
       }
-
       paramType = data.getUint8(8);
       paramProperty = data.getUint8(9);
 
-      if(data.getUint8(3) <= 0x1D){ // Single packet param 
+      if(data.getUint8(3) <= 0x1D){  // Single packet Parameter
           paramValue =copyToHexArray(data, 10,(data.getUint8(3))-8 );
-          addDataToTable();
-       
+          PostProcesssesParameterData(); 
       }
-      else{  // multy packet params 
-
+      else{  //Multiple packet parameter
           multyPacketParam=true;
           paramValue =copyToHexArray(data, 10,21 );
 
-          if(data.getUint8(3) == 0xF0){
-          multy_param_offset=true;
+          if(data.getUint8(3) == 0xF0){  //Multiple ofsets parameters
+              multy_param_offset=true;
           }
       }
   }
-
   }else{
 
-      if(multy_param_offset_res==false){
+      if(multy_param_offset_res==false){  //Get multiple packet patermeter offsets(form 2nd packet onwords)
 
-      if(data.getUint8(1)==0x1D){
+         if(data.getUint8(1)==0x1D){ // Intermediate data of  multiple packet patermeter offsets
+            paramValue= appendToHexArray(paramValue,data,2,29);
+           }
+         else{  
 
-        paramValue= appendToHexArray(paramValue,data,2,29);
-      }
-      else{      
-          
-       
-          if(multy_param_offset==true){
-          paramValue=appendToHexArray(paramValue,data,2,data.getUint8(1));
-          sendACK();
-          SendCommandOffset(offset_count);
-          offset_count++;
-          multy_param_offset_res=true;
-          return;
-          }
-          else{
-              
-              paramValue=appendToHexArray(paramValue,data,2,data.getUint8(1));
-              addDataToTable();
-              multyPacketParam=false;
+             if(multy_param_offset==true){  // End of data in current offset
+                 paramValue=appendToHexArray(paramValue,data,2,data.getUint8(1));
+                 sendACK();
+                 SendCommandOffset(offset_count);
+                 offset_count++;
+                 multy_param_offset_res=true;
+                 return;
+                }
+              else{   // End of the offset data
+                 paramValue=appendToHexArray(paramValue,data,2,data.getUint8(1));
+                 PostProcesssesParameterData();
+                 multyPacketParam=false;
           }
       }
-
       }
-      else{
+      else{  //Get multiple packet patermeter offsets(first packet)
 
           if(data.getUint8(4) == 0x04){
-
-           if(data.getUint8(3) == 0xF0){
-              
-              paramValue=appendToHexArray(paramValue,data,15,16);
-              multy_param_offset_res=false;
+             if(data.getUint8(3) == 0xF0){
+                 paramValue=appendToHexArray(paramValue,data,15,16);
+                 multy_param_offset_res=false;
+              }
+             else if(data.getUint8(3) <=0x15){
+                 paramValue=appendToHexArray(paramValue,data,15,data.getUint8(3)-15);
+                 PostProcesssesParameterData();
+                 multy_param_offset_res=false;
+                 multy_param_offset=false;
+                 multyPacketParam=false;
+              }
+             else{
+                 paramValue=appendToHexArray(paramValue,data,15,16);
+                 multy_param_offset_res=false;
+                 multy_param_offset=false;
+                }
            }
-           else if(data.getUint8(3) <=0x15){
-              paramValue=appendToHexArray(paramValue,data,15,data.getUint8(3)-15);
-          
-              addDataToTable();
-              multy_param_offset_res=false;
-              multy_param_offset=false;
-              multyPacketParam=false;
-           }
-           else{
-              paramValue=appendToHexArray(paramValue,data,15,16);
-              multy_param_offset_res=false;
-              multy_param_offset=false;
-           }
-
-           }
-
-          }
+        }
       }
       sendACK();
   }
 
-//-----------------------------------------------------------------------------------------------
+//Wrapper for Process Parameter data------------------------------------------------------------
 
 function processGetValueResponse_wraper(hexString){
 
   const byteArray = hexString.split(' ').map(byte => parseInt(byte, 16));
-  
-  
   const arrayBuffer = new ArrayBuffer(byteArray.length);
   const dataView = new DataView(arrayBuffer);
   
@@ -327,13 +341,10 @@ function processGetValueResponse_wraper(hexString){
   byteArray.forEach((byte, index) => {
   dataView.setUint8(index, byte);
   });
-  
   processGetValueResponse_updated(dataView);
-  
   }
   
-  //------------------------------------------------------------------------------------------------
-  
+  // Send offsed command------------------------------------------------------------------------
   async function SendCommandOffset(offset){
     if (!device) {
       console.log("Device not connected.");
@@ -344,7 +355,6 @@ function processGetValueResponse_wraper(hexString){
     const offset_param=offset*227;
     const msb_offset =(offset_param >> 8) & 0xFF;
     const lsb_offset = offset_param & 0xFF;
-
 
     const reportId = 0x0D; // Report ID in hexadecimal
     const data = [
@@ -361,120 +371,91 @@ function processGetValueResponse_wraper(hexString){
       console.log("Offset Report sent successfully :",offset_param);
     } catch (error) {
       console.error("Error sending report:", error);
-    }
-    
+    } 
   }
   
-  
+  //Convert byte data to hex------------------------------------------------------------------
   function toHex(byte) {
     return '0x' + byte.toString(16).padStart(2, '0').toUpperCase();
 }
-  
+  // Copy dataview model to hex array--------------------------------------------------------
   function copyToHexArray(dataView, start, length) {
       const hexArray = [];
       
       for (let i = 0; i < length; i++) {
         const byte = dataView.getUint8(start + i);
         hexArray.push(toHex(byte));
-      }
-      
+      } 
       return hexArray;
     }
   
-  //---------------------------------------------------------------------------------------------------
+  //Append data to hex array------------------------------------------------------------------
     function appendToHexArray(existingHexArray, newDataView, start, length) {
       const newHexArray = [];
-      
-      // Convert the new data to hexadecimal
       for (let i = 0; i < length; i++) {
         const byte = newDataView.getUint8(start + i);
         newHexArray.push(toHex(byte));
       }
-      
-      // Append new hex data to the existing hex array
       return existingHexArray.concat(newHexArray);
     }
-    
-    
   
-  //---------------------------------------------------------------------------------------------------
-  function addDataToTable() {
+  // Post processes parameter data--------------------------------------------------------------
+  function PostProcesssesParameterData() {
+      offset_count=1;
+      paramPropertyStr=paramProperty;
+      paramTypestr= String.fromCharCode(paramType);
 
-         
-          offset_count=1;
-          paramPropertyStr=paramProperty;
-          paramTypestr= String.fromCharCode(paramType);
+      switch(paramTypestr) {
 
-          switch(paramTypestr) {
+        case 'A':
+          paramValue=paramValue.slice(5)
+          paramValueStr=paramValue.join(' ');
+          break;
+        case 'B':
+          paramValueStr=hexToUnsignedInt(paramValue[0])
+           break;
+        case 'C':
+          paramValueStr=hexToSignedInt(paramValue[0])
+          break;
+        case 'D':
+          paramValueStr=hexToDWord(paramValue);   
+          break;
+        case 'F':
+          paramValue=paramValue.slice(0,-2)
+          paramValueStr=flagval(paramValue)     
+          break;
+        case 'I':
+           paramValueStr=hexToSWord(paramValue);   
+          break;
+        case 'L':
+           paramValueStr=hexToSDWord(paramValue);   
+          break;
+        case 'S':
+          paramValue=paramValue.slice(4)
+          paramValue = paramValue.slice(0, -3);
+          paramValueStr=paramValue.map(hex => String.fromCharCode(parseInt(hex, 16))).join('');
+          break;
+        case 'X':
+          paramValueStr=paramValue.map(hex => String.fromCharCode(parseInt(hex, 16))).join(''); 
+          break;
+        case 'W':
+          paramValueStr=hexToWord(paramValue);  
+          break;  
+        default:
+          paramValueStr=paramValue.join(' ');     
+      }
 
-            case 'A':
-              paramValue=paramValue.slice(5)
-              paramValueStr=paramValue.join(' ');
-              break;
+      console.log("ID:", paramID, "Type:", paramType, "Property:", paramProperty, "Value:", paramValueStr, "\n");
 
-            case 'B':
-              paramValueStr=hexToUnsignedInt(paramValue[0])
-              break;
-
-            case 'C':
-              paramValueStr=hexToSignedInt(paramValue[0])
-              break;
-
-            case 'D':
-              paramValueStr=hexToDWord(paramValue);   
-              break;
-
-            case 'F':
-              paramValue=paramValue.slice(0,-2)
-              paramValueStr=flagval(paramValue)
-              
-              break;
-
-            case 'I':
-              paramValueStr=hexToSWord(paramValue);   
-              break;
-
-            case 'L':
-              paramValueStr=hexToSDWord(paramValue);   
-              break;
-
-            case 'S':
-             paramValue=paramValue.slice(4)
-             paramValue = paramValue.slice(0, -3);
-             paramValueStr=paramValue.map(hex => String.fromCharCode(parseInt(hex, 16))).join('');
-             break;
-
-            case 'X':
-             paramValueStr=paramValue.map(hex => String.fromCharCode(parseInt(hex, 16))).join(''); 
-             break;
- 
-            case 'W':
-            paramValueStr=hexToWord(paramValue);  
-            break;
-            
-            default:
-            paramValueStr=paramValue.join(' ');
-             
-          }
-
-  
-
-          console.log("ID:", paramID, "Type:", paramType, "Property:", paramProperty, "Value:", paramValueStr, "\n");
-
-          if(startup){
-           
-          updateDeviceInfo(paramID,paramValueStr);
-         
-          }
-          else{
-            update_table();
-
-          }
-
-      
+      if(startup){
+         updateDeviceInfo(paramID,paramValueStr);
+      }
+      else{
+         update_table();
+      }
   }
 
-  //----------------------------------------------------------------------------------------------------
+  //Print data view contetent(for debuging)----------------------------------------------------------------------------
   function printDataViewContent(dataView) {
     let content = [];
     for (let i = 0; i < dataView.byteLength; i++) {
@@ -483,21 +464,15 @@ function processGetValueResponse_wraper(hexString){
     }
     console.log("DataView Content (Hex):", content.join(' '));
   }
-
-  //-----------------------------------------------------------------------------------------------------
-
+// Send Acknowledgement command-----------------------------------------------------------------------------------------
   async function sendACK() {
 
     if (!device) {
       console.log("Device not connected.");
       return;
     }
-
     const data = [
       0x27, 0x01, 0x00];
-
-    
-  
     try {
       get_value_response = true;
       await device.sendReport(0x01, new Uint8Array(data));
@@ -505,13 +480,8 @@ function processGetValueResponse_wraper(hexString){
     } catch (error) {
       console.error("Error sending report:", error);
     }
-
-
   }
-
-
-  //------------------------------------------------------------------
-
+  //Convert hex to word (for post processes of parameter data)------------------------------------------------------------
   function hexToWord(hexArray) {
     if (hexArray.length !== 2) {
       throw new Error("Hex array must have exactly 2 bytes for WORD.");
@@ -519,9 +489,7 @@ function processGetValueResponse_wraper(hexString){
     const word = (hexArray[0] << 8) | hexArray[1];
     return word.toString();
   }
-
-
-
+//Convert hex to sword (for post processes of parameter data)------------------------------------------------------------
   function hexToSWord(hexArray) {
     if (hexArray.length !== 2) {
       throw new Error("Hex array must have exactly 2 bytes for SWORD.");
@@ -532,9 +500,7 @@ function processGetValueResponse_wraper(hexString){
     }
     return value.toString();
   }
-
-
-
+//Convert hex to Dword (for post processes of parameter data)------------------------------------------------------------
   function hexToDWord(hexArray) {
     if (hexArray.length !== 4) {
       throw new Error("Hex array must have exactly 4 bytes for DWORD.");
@@ -547,8 +513,7 @@ function processGetValueResponse_wraper(hexString){
     ) >>> 0;
     return dWord.toString();
   }
-
-
+//Convert hex to SDword (for post processes of parameter data)------------------------------------------------------------
   function hexToSDWord(hexArray) {
     if (hexArray.length !== 4) {
       throw new Error("Hex array must have exactly 4 bytes for SDWORD.");
@@ -562,7 +527,7 @@ function processGetValueResponse_wraper(hexString){
     }
     return value.toString();
   }
-
+//Convert hex to flag  value (for post processes of parameter data)---------------------------------------------------------
   function flagval(hexArray) {
     if (hexArray.length !== 1) {
       throw new Error("Hex array must have exactly 1 byte for comparison.");
@@ -575,14 +540,12 @@ function processGetValueResponse_wraper(hexString){
         return "False";
       }
     }
-  
-
-
+//Convert hex to unsigned int (for post processes of parameter data)------------------------------------------------------------
 function hexToUnsignedInt(hexValue) {
     const unsignedInt = parseInt(hexValue, 16);
     return unsignedInt.toString();
 }
-
+//Convert hex to signed(for post processes of parameter data)-------------------------------------------------------------------
 function hexToSignedInt(hexValue) {
 
     const signedInt = parseInt(hexValue, 16);
@@ -590,38 +553,27 @@ function hexToSignedInt(hexValue) {
     const signed32BitInt = signedInt > 0x7FFFFFFF ? signedInt - max32BitInt - 1 : signedInt;
     return signed32BitInt.toString();
 }
-
-
-
+//Build jepef image form byte data-------------------------------------------------------------------------------------------------
 function drawImageFromByteArray_jpeg(byteArray) {
   const canvas = document.getElementById('Canvas');
   const context = canvas.getContext('2d');
 
   const blob = new Blob([new Uint8Array(byteArray)], { type: 'image/jpeg' });
-
   const url = URL.createObjectURL(blob);
   const img = new Image();
   img.onload = function() {
     canvas.width = img.width;
     canvas.height = img.height;
     context.drawImage(img, 0, 0);
-    
-    // Clean up the object URL
     URL.revokeObjectURL(url);
   };
   img.src = url;
 }
-
-
-// Draw the image on the canvas
-
+// Statup(load device information)-------------------------------------------------------------------------------------------------
 async function statup(){
   await Request_parameter(533);
-
-  
 }
-
-
+// Request specific parameter------------------------------------------------------------------------------------------------------
 async function Request_parameter(param_num){
 
   if (!device) {
@@ -647,7 +599,7 @@ async function Request_parameter(param_num){
      console.error("Error sending report:", error);
    }
 }
-
+// Update device info---------------------------------------------------------------------------------------------------------------
 function updateDeviceInfo(paramID,paramValueStr){
   
   if(paramID=="2471"){
@@ -660,26 +612,22 @@ function updateDeviceInfo(paramID,paramValueStr){
        document.getElementById("scannerModel").innerText =paramValueStr;
        Request_parameter(534);
     }
-
     else if(paramID=="534"){
-      document.getElementById("serialNum").innerText =  paramValueStr;
-      Request_parameter(535);
+       document.getElementById("serialNum").innerText =  paramValueStr;
+       Request_parameter(535);
       }
-
-     else if(paramID=="535"){
-        document.getElementById("dom").innerText = paramValueStr;
-        Request_parameter(20012);
+    else if(paramID=="535"){
+       document.getElementById("dom").innerText = paramValueStr;
+       Request_parameter(20012);
       }
-
     else if(paramID=="20012"){
-        document.getElementById("frimware").innerText =  paramValueStr;
-        Request_parameter(616);
+       document.getElementById("frimware").innerText =  paramValueStr;
+       Request_parameter(616);
     }
-
     else if(paramID=="616"){
       document.getElementById("config").innerText = paramValueStr;
-      Request_parameter(2471);
-     
+      Request_parameter(2471);  
   }
-
 }
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
