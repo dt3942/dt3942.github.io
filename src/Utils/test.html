@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serial Device Communication</title>
+</head>
+<body>
+    <h1>Serial Device Communication</h1>
+    
+    <!-- Connect Button -->
+    <button id="connectButton">Connect</button>
+    <pre id="output"></pre>
+
+    <!-- Input for sending data -->
+    <input type="text" id="dataInput" placeholder="Enter data in hex format (e.g., 4A4B4C)" />
+    <button id="sendButton">Send Data</button>
+
+    <script>
+        let port;
+        let writer;
+
+        async function connectSerialDevice() {
+            try {
+                // Request a COM port device from the user
+                port = await navigator.serial.requestPort();
+                console.log(port);
+                // Open the selected port with specified baud rate
+                await port.open({ baudRate: 9600 }); // Adjust baud rate as needed
+                console.log('Serial port opened successfully.');
+                document.getElementById('output').textContent += 'Serial port opened successfully.\n';
+
+                const reader = port.readable.getReader();
+                writer = port.writable.getWriter();
+
+                // Continuously read data from the serial device
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) {
+                        // Reader has been closed or port is disconnected
+                        console.log('Stream closed.');
+                        document.getElementById('output').textContent += 'Stream closed.\n';
+                        break;
+                    }
+                    const decodedValue = new TextDecoder().decode(value);
+                    console.log('Received:', decodedValue);
+                    document.getElementById('output').textContent += `Received: ${decodedValue}\n`;
+                }
+
+                // Release the reader
+                reader.releaseLock();
+
+            } catch (error) {
+                console.error('Error connecting to serial device:', error);
+                document.getElementById('output').textContent += `Error: ${error.message}\n`;
+            }
+        }
+
+        async function sendData() {
+            try {
+                const hexData = document.getElementById('dataInput').value.trim();
+                if (hexData && writer) {
+                    // Convert hex string to byte array
+                    const byteArray = hexStringToByteArray(hexData);
+                    await writer.write(byteArray);
+                    console.log('Sent:', byteArray);
+                    document.getElementById('output').textContent += `Sent: ${hexData}\n`;
+                } else {
+                    console.log('No data to send or writer not initialized.');
+                    document.getElementById('output').textContent += 'No data to send or writer not initialized.\n';
+                }
+            } catch (error) {
+                console.error('Error sending data:', error);
+                document.getElementById('output').textContent += `Error: ${error.message}\n`;
+            }
+        }
+
+        function hexStringToByteArray(hexString) {
+            const result = [];
+            for (let i = 0; i < hexString.length; i += 2) {
+                const byte = parseInt(hexString.substr(i, 2), 16);
+                result.push(byte);
+            }
+            return new Uint8Array(result);
+        }
+
+        // Attach event listeners
+        document.getElementById('connectButton').addEventListener('click', connectSerialDevice);
+        document.getElementById('sendButton').addEventListener('click', sendData);
+    </script>
+</body>
+</html>
