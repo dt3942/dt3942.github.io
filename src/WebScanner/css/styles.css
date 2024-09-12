@@ -1,0 +1,503 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+
+header {
+    display: flex;
+    align-items: center; 
+    padding: 10px 20px;
+    border-bottom: 2px solid #ccc;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 15px;
+    border-top: 2px solid #ccc;
+    background-color: #ffffff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    color: #007bff;
+}
+
+.logo {
+    width: 300px;
+    margin-right: 10px;
+}
+
+.logout {
+    background-color: #ffffff;
+    color: #007bff;
+    border: 2px solid #007bff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: fixed; 
+    top: 10px;      
+    right: 10px;    
+    z-index: 1000  
+}
+
+.tab-content {
+    display: none;
+    
+
+  }
+
+  .tab-container{
+
+    position: fixed;
+    top: 30px;
+    right:40%;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+.tab-button{
+    background-color: #fbfdff;
+    color: #307ed6;
+    border: 2px solid #ffffff;
+    border-bottom: 4px solid #ffffff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+   
+}
+.tab-button.active {
+    background-color: #3e6ae0; /* Change this to your preferred active color */
+    color: white;
+  }
+  
+
+.tab-button:hover{
+    border-bottom: 4px solid #225dca;
+
+}
+.tab2:hover{
+    border-bottom: 4px solid #225dca;
+    
+}
+
+
+
+.Main-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.body-container {
+    display: flex;           /* Enables flexbox layout */
+    flex-direction: row;     /* Aligns children in a row horizontally */
+    /* Optional: Additional styling to manage spacing and layout */
+    justify-content: flex-start; /* Aligns items to the start of the container */
+    align-items: center;     /* Aligns items vertically center within the row */
+    gap: 0px;               /* Adds space between child elements */
+}
+
+.actions{
+    background-color: #fcfcfc;
+    margin: 50px 0 0px 0; 
+    position: fixed;
+    top: 10px;
+    left: 0px;
+    display: flex;
+    width: 220px;
+    height: 100vh;
+    padding: 10px;
+    flex-direction: column;
+    border: 4px solid #838383;
+    z-index: 100;
+}
+
+
+.functions{
+
+    background-color: #838383;
+    margin: 30px 0 0px 0; 
+    position: relative;
+    top: 30px;
+    left: 0px;
+    display: flex;
+    width: 100%;
+    height:auto;
+    padding: 0px;
+    flex-direction: column;
+
+    z-index: 10;
+
+}
+
+.device-info-section{
+    background-color: #f8f8f9;
+    margin: 10px 0 0px 0; 
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    width: 100%;
+    height: 260px;
+    padding: 0px;
+    flex-direction: row;
+ 
+   
+}
+
+
+.device-info1{
+    background-color: #f8f8f9;
+    margin: 0px 10px 10px 10px; 
+    position: relative;
+    top: 0px;
+    left:260px;
+    display: flex;
+    width: 220px;
+    height: 220px;
+    padding: 0px;
+    flex-direction: column;
+
+
+
+}
+.device-info2{
+
+    background-color: #f8f8f9;
+    margin: 0px 0 0px 0; 
+    position: absolute;
+    top: 70px;
+    left:470px;
+    display: flex;
+    width: 200px;
+    height: 150px;
+    padding: 0px;
+    flex-direction: column;
+
+
+}
+
+
+.device-info-image{
+
+    background-color: #969696;
+    margin: 0px 0 0px 0; 
+    position: absolute;
+    top: 30px;
+    display: flex;
+    width: 200px;
+    height: 200px;
+    padding: 0px;
+    flex-direction: column;
+    border: 2px solid #adadad;
+    border-radius: 40px;
+    right: 20px;
+    z-index: 100;
+
+}
+
+
+
+.scanner-configuration-section{
+    background-color: #ffffff;
+    margin: 5px 0 0px 0; 
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    width: 100%;
+    height: 320px;
+    padding: 20px;
+    flex-direction: row;
+    
+   
+}
+.rsm-section{
+    background-color: #ffffff;
+    margin: 0px 10px 10px 10px; 
+    position: relative;
+    top: 0px;
+    left:240px;
+    display: flex;
+    width: 580px;
+    height: 240px;
+    padding: 0px;
+    flex-direction: column;
+
+
+
+}
+.fw-update-section{
+
+    background-color: #ffffff;
+    margin: 0px 0 0px 0; 
+    position: absolute;
+    top: 10px;
+    right: 5%;
+    display: flex;
+    width: 560px;
+    height: 330px;
+    padding: 10px;
+    flex-direction: column;
+
+
+}
+
+.data-view-section{
+    background-color: #ffffff;
+    margin: 5px 0 0px 0; 
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    width: 100%;
+    height: 260px;
+    padding: 0px;
+    flex-direction: row;
+ 
+   
+}
+
+
+
+.barcode-data-section{
+    background-color: #ffffff;
+    margin: 0px 10px 10px 10px; 
+    position: relative;
+    top: 0px;
+    left:260px;
+    display: flex;
+    width: 570px;
+    height: 240px;
+    padding: 0px;
+    flex-direction: column;
+
+
+
+}
+.symbology-section{
+
+    background-color: #ffffff;
+    margin: 0px 0 0px 0; 
+    position: absolute;
+    top: 65px;
+    right: 5%;
+    display: flex;
+    width: 540px;
+    height: 180px;
+    padding: 0px;
+    flex-direction: column;
+
+
+}
+
+
+.statistical-information-section{
+    background-color: #ffffff;
+    margin: 5px 0 0px 0; 
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    width: 100%;
+    height: 260px;
+    padding: 0px;
+    flex-direction: row;
+ 
+   
+}
+
+.stat-section{
+    background-color: #ffffff;
+    margin: 0px 10px 10px 10px; 
+    position: relative;
+    top: 0px;
+    left:260px;
+    display: flex;
+    width: 220px;
+    height: 220px;
+    padding: 0px;
+    flex-direction: column;
+
+
+
+}
+
+
+.stat-section2{
+
+    background-color: #ffffff;
+    margin: 0px 0 0px 0; 
+    position: absolute;
+    top: 70px;
+    left:470px;
+    display: flex;
+    width: 200px;
+    height: 150px;
+    padding: 0px;
+    flex-direction: column;
+
+
+}
+
+.update-device-info-section{
+    background-color: #ffffff;
+    margin: 5px 0 0px 0; 
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    width: 100%;
+    height: 300px;
+    padding: 0px;
+    flex-direction: row;
+ 
+   
+}
+.update-device-infosection1{
+    background-color: #ffffff;
+    margin: 0px 10px 10px 10px; 
+    position: relative;
+    top: 0px;
+    left:260px;
+    display: flex;
+    width: 500px;
+    height: 280px;
+    padding: 0px;
+    flex-direction: column;
+
+
+
+}
+
+.spacer{
+
+
+    height: 50px;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); 
+    z-index: 999; 
+}
+
+#custom-alert {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#loading {
+    
+    position: fixed;
+    display: none;
+    z-index: 1000;
+    left: 40%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    width: 0px;
+    background-color: #ffffff41;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    height: 100px;
+}
+
+.img2{
+    width: 400px;
+    height: 320px;
+    border-radius: 30px;
+}
+
+.alert-title {
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+    color: #0C2040;
+    font-weight: bold;
+}
+
+.alert-msg {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #333333;
+}
+
+#custom-alert button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#custom-alert button:hover {
+    background-color: #0056b3;
+}
+
+
+.tab-test{
+
+    position: fixed;
+    background-color: #ffffff;
+    width: 100%;
+    height: 100%;
+    left: 250px;
+    top :75px;
+    z-index: 500;
+     display: none;
+}
+
+.tab-test2{
+
+    position: fixed;
+    background-color: #ffffff;
+    width: 100%;
+    height: 100%;
+    left: 250px;
+    top :75px;
+    z-index: 500;
+     display:flex;
+
+}
+
+.img{
+    
+    position: absolute;
+    left: 0px;
+ 
+}
