@@ -2,26 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/ico" href="img/Zebra_logo.svg" />
+    <link rel="icon" type="image/ico" href="Styles/img/Zebra_logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zebra Web Scanner </title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/actions.css">
-    <link rel="stylesheet" href="css/device_info.css">
-    <link rel="stylesheet" href="css/barcode-section.css">
-    <link rel="stylesheet" href="css/rsm-section.css">
-    <link rel="stylesheet" href="css/firmware-update.css">
-    <link rel="stylesheet" href="css/stat-section.css">
-    <link rel="stylesheet" href="css/update_device_info.css">
+    <link rel="stylesheet" href="Styles/css/styles.css">
+    <link rel="stylesheet" href="Styles/css/actions.css">
+    <link rel="stylesheet" href="Styles/css/device_info.css">
+    <link rel="stylesheet" href="Styles/css/barcode-section.css">
+    <link rel="stylesheet" href="Styles/css/rsm-section.css">
+    <link rel="stylesheet" href="Styles/css/firmware-update.css">
+    <link rel="stylesheet" href="Styles/css/stat-section.css">
+    <link rel="stylesheet" href="Styles/css/update_device_info.css">
+    <link rel="stylesheet" href="Styles/css/tab2.css">
 
 </head>
 <body>
  <div class="Main-container">
     <header>
-        <img src="img/logo.png" alt="Zebra Logo" class="logo">
+        <img src="Styles/img/logo.png" alt="Zebra Logo" class="logo">
         <div  class="tab-container">
-        <button  class="tab-button" onclick="openTab(event, 'Tab1')">Main</button>
-        <button  class="tab-button" onclick="openTab(event, 'Tab2')">Device configuration</button>
+        <button id="IDtab1" class="tab-button" onclick="openTab(event, 'Tab1')">Overview</button>
+        <button id="IDtab2" class="tab-button" onclick="openTab(event, 'Tab2')">Scanner configuration</button>
         <button class="logout">Logout</button>
     </header>
 
@@ -52,7 +53,6 @@
                       <option value="" disabled selected>Select Host Varient</option>
                       <option value="1" >USB-IBMHID</option>
                       <option value="2" >USB-HIDKB</option> 
-                      <option value="3" >USB-OPOS</option>
                       <option value="4" >USB-SNAPI With Imaging</option>
                       <option value="5" >USB-CDC Serial Emulation</option>
                       <option value="6" >USB-SSI orver CDC</option>
@@ -99,7 +99,7 @@
                <div class="device-info-image">  
                 
                 <canvas class="canvas-image" id="Canvas" width="100" height="100"></canvas>
-                <img class="scanner-img" src="img/scaner.jpg" alt="Description of the image" width="200" height="200">
+                <img class="scanner-img" src="Styles/img/scaner.jpg" alt="Description of the image" width="200" height="200">
                </div>
             </div>
 
@@ -134,8 +134,8 @@
                     <p> Firmware version:</p>
                     <label >Update firmware </label>
                 <div class="input-group">
-                    <input type="text" id="filePath" placeholder="Browse...">
-                    <input type="file" id="fileInput">
+                    <input type="text" id="filePath" placeholder="Browse Firmware DAT File...">
+                    <input type="file" id="fileInput" accept=".dat" />
                 </div>
             
                 <div class="checkbox-group">
@@ -209,18 +209,26 @@
              <div class="update-device-info-section">
                 <div class="update-device-infosection1">
                     <h2> Update Device info</h2>
-                    <p> Select .scandef file </p>
+                    <h4>  SCANDEF  </h4>
+                    <div class="update-device-info-group">
                     <div class="input-group2">
-                        <input type="text" id="filePath2" placeholder="Browse...">
-                        <input type="file" id="fileInput2">
+                        <input type="text" id="filePath2" placeholder="Browse SCANDEF File...">
+                        <input type="file" id="fileInput2" accept=".scndef"/>
                     </div>
-                <button class="buttontype1" id="button-send-scandef">update</button>
+                   <button class="buttontype1" id="button-send-scandef">Update</button>
+                   </div>
 
+                   <h4>Device Image </h4>
+                <div class="update-device-info-group">
+                <div class="input-group2">
+                    <input type="text" id="filePath3" placeholder="Browse Image File...">
+                    <input type="file" id="fileInput3" accept=".jpg" />
+                </div>
+                <button class="buttontype1" id="button-send-image">Update</button>
+                 </div>
                 <div class="progress-bar2">
                     <div id="progressBar2"  class="progress-bar-inner2"></div>
                 </div>
-
-
                 </div>
               </div>
 
@@ -234,9 +242,606 @@
 
        <div id="Tab2"  class="tab-content" style="display:none;">
 
+        <div class="Tab2content">
+            <div id="Tab2_status" class="Tab2-status">
+             <h2>No Connected Scanners</h2>
+            </div>
+            <div id="Tab2-maincontent" class="Tab2-maincontent">
 
-        <img src="img/new.png" alt="Zebra Logo" class="img">
+                <div class="container">
+                    <button onclick="document.getElementById('file-input').click()">Upload .scndef File</button>
+                    <input type="file" id="file-input" accept=".scndef" style="display: none;" onchange="handleFileUpload(event)">
+                    
+                    <!-- Top section with General information -->
+                    <div class="header-section">
+                        <h1>General</h1>
+                        <p>The parameters below are general scanner settings and user preferences. <br>Click on blue links below for faster parameter list navigation.</p>
+                    </div>
+                
+                    <!-- Content section with navigation and form -->
+                    <div class="content-section">
+                        <!-- Left navigation section -->
+                        <div class="nav-section">
+                            <ul>
+                                <li><a href="#system">System</a></li>
+                                <li><a href="#beeper">Beeper</a></li>
+                                <li><a href="#statistics">Statistics</a></li>
+                                <li><a href="#eas">EAS</a></li>
+                            </ul>
+                        </div>
+                
+                        <!-- Main form section -->
+                        <div class="form-section">
+                            <h3 id="system">System</h3><br>
+                            <div class="form-group" id="1281" default="0">
+                                <label for="pid-type">PID Type</label>
+                                <select id="pid-type" name="pid-type">
+                                    <option value="0">Host Mode Unique</option>
+                                    <option value="1">Product Unique</option>
+                                    <option value="2">TGCS/IBM Unique</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="1725" default="0">
+                                <label for="pid-value">PID Value</label>
+                                <input type="number" id="pid-value" name="pid-value" value="0" min="0" max="1649" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="1727" default="1">
+                                <label for="flash-update">4690 Flash Update</label>
+                                <select id="flash-update" name="flash-update">
+                                    <option value="0">Disable</option>
+                                    <option value="1">Enable</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="236" default="1">
+                                <label for="param-scanning">Parameter Scanning Allowed</label>
+                                <input type="checkbox" id="param-scanning" name="param-scanning" checked>
+                            </div>
+                            
+                            <div class="form-group" id="960" default="0">
+                                <label for="keyboard-country">Keyboard Country Type</label>
+                                <select id="keyboard-country" name="keyboard-country">
+                                    <option value="0">North American</option>
+                                    <option value="111">US English (MAC)</option>
+                                    <option value="19">Albanian</option>
+                                    <option value="94">Arabic101</option>
+                                    <option value="107">Arabic102</option>
+                                    <option value="108">Arabic (102) AZERTY</option>
+                                    <option value="20">Azeri Latin</option>
+                                    <option value="76">Azeri Cyrillic</option>
+                                    <option value="77">Belarusian</option>
+                                    <option value="8">Belgian French</option>
+                                    <option value="21">Bosnian Latin</option>
+                                    <option value="100">Bosnian Cyrillic</option>
+                                    <option value="23">Bulgarian Latin</option>
+                                    <option value="78">Bulgarian Cyrillic (Typewriter)</option>
+                                    <option value="101">Canadian French Win7</option>
+                                    <option value="102">Canadian French (Legacy)</option>
+                                    <option value="24">Canadian Multilingual Standard</option>
+                                    <option value="109">Chinese ASCII</option>
+                                    <option value="95">Chinese (Simplified)</option>
+                                    <option value="98">Chinese (Traditional)</option>
+                                    <option value="25">Croatian</option>
+                                    <option value="26">Czech</option>
+                                    <option value="27">Czech Programmer</option>
+                                    <option value="28">Czech QWERTY</option>
+                                    <option value="30">Danish</option>
+                                    <option value="31">Dutch Netherland</option>
+                                    <option value="32">Estonian</option>
+                                    <option value="33">Faeroese</option>
+                                    <option value="34">Finnish</option>
+                                    <option value="9">French (France)</option>
+                                    <option value="11">French (Canada) 95/98</option>
+                                    <option value="17">French (Canada) 2000/XP</option>
+                                    <option value="35">Galician</option>
+                                    <option value="10">German</option>
+                                    <option value="36">Greek Latin</option>
+                                    <option value="37">Greek220 Latin</option>
+                                    <option value="38">Greek319 Latin</option>
+                                    <option value="87">Greek</option>
+                                    <option value="88">Greek220</option>
+                                    <option value="89">Greek319</option>
+                                    <option value="91">Greek Polytonic</option>
+                                    <option value="92">Hebrew Israel</option>
+                                    <option value="39">Hungarian</option>
+                                    <option value="40">Hungarian 101 key</option>
+                                    <option value="42">Icelandic</option>
+                                    <option value="43">Irish</option>
+                                    <option value="13">Italian</option>
+                                    <option value="44">Italian 142</option>
+                                    <option value="16">Japanese ASCII</option>
+                                    <option value="96">Japanese (SHIFT-JIS)</option>
+                                    <option value="79">Kazakh</option>
+                                    <option value="110">Korean ASCII</option>
+                                    <option value="97">Korean (Hangul)</option>
+                                    <option value="80">Kyrgyz</option>
+                                    <option value="45">Latin American</option>
+                                    <option value="46">Latvian</option>
+                                    <option value="47">Latvian QWERTY</option>
+                                    <option value="48">Lithuanian</option>
+                                    <option value="49">Lithuanian IBM</option>
+                                    <option value="81">Macedonian(FYROM)</option>
+                                    <option value="50">Maltese_47KEY</option>
+                                    <option value="82">Mongolian</option>
+                                    <option value="51">Norwegian</option>
+                                    <option value="52">Polish 214</option>
+                                    <option value="54">Polish Programmer</option>
+                                    <option value="18">Portuguese Brazil</option>
+                                    <option value="104">Portuguese Brazilian ABNT</option>
+                                    <option value="105">Portuguese Brazilian ABNT2</option>
+                                    <option value="99">Portuguese Portugal</option>
+                                    <option value="160">Romanian</option>
+                                    <option value="55">Romanian Legacy</option>
+                                    <option value="56">Romanian Standard</option>
+                                    <option value="57">Romanian Programmer</option>
+                                    <option value="73">Russian</option>
+                                    <option value="75">Russian Typewriter</option>
+                                    <option value="58">Serbian</option>
+                                    <option value="83">Serbian Cyrillic</option>
+                                    <option value="59">Slovak</option>
+                                    <option value="60">Slovak QWERTY</option>
+                                    <option value="62">Slovenian</option>
+                                    <option value="12">Spanish</option>
+                                    <option value="63">Spanish Variation</option>
+                                    <option value="14">Swedish</option>
+                                    <option value="64">Swiss French</option>
+                                    <option value="65">Swiss German</option>
+                                    <option value="84">Tatar</option>
+                                    <option value="93">Thai-Kedmanee</option>
+                                    <option value="66">Turkish F</option>
+                                    <option value="67">Turkish Q</option>
+                                    <option value="15">UK English</option>
+                                    <option value="85">Ukrainian</option>
+                                    <option value="68">US Dvorak</option>
+                                    <option value="69">US Dvorak Left</option>
+                                    <option value="70">US Dvorak Right</option>
+                                    <option value="71">US International</option>
+                                    <option value="86">Uzbek</option>
+                                    <option value="72">Vietnamese</option>
+                                    <option value="255">Non-CJK</option>
+                                </select>
+                            </div>
+                            
+                            
+                            <div class="form-group" id="961" default="0">
+                                <label for="country-code-page">Country Code Page</label>
+                                <select id="country-code-page" name="country-code-page">
+                                    <option value="0">Default for a set Country Type</option>
+                                    <option value="1250">Windows 1250 - Latin 2, Central European</option>
+                                    <option value="1251">Windows 1251 - Cyrillic/Slavic</option>
+                                    <option value="1252">Windows 1252 - Latin 1, Western European</option>
+                                    <option value="1253">Windows 1253 - Greek</option>
+                                    <option value="1254">Windows 1254 - Latin 5, Turkish</option>
+                                    <option value="1255">Windows 1255 - Hebrew</option>
+                                    <option value="1256">Windows 1256 - Arabic</option>
+                                    <option value="1257">Windows 1257 - Baltic</option>
+                                    <option value="1258">Windows 1258 - Vietnamese</option>
+                                    <option value="874">Windows 874 - Thai</option>
+                                    <option value="20866">Windows 20866 - Cyrillic KOI8-R</option>
+                                    <option value="932">Windows 932 - Japanese Shift-JIS</option>
+                                    <option value="936">Windows 936 - Simplified Chinese GBK</option>
+                                    <option value="54936">Windows 54936 - Simplified Chinese GB18030</option>
+                                    <option value="949">Windows 949 - Korean Hangul</option>
+                                    <option value="950">Windows 950 - Traditional Chinese Big5</option>
+                                    <option value="437">MS-DOS 437 - Latin US</option>
+                                    <option value="737">MS-DOS 737 - Greek</option>
+                                    <option value="775">MS-DOS 775 - Baltic</option>
+                                    <option value="850">MS-DOS 850 - Latin 1</option>
+                                    <option value="852">MS-DOS 852 - Latin 2</option>
+                                    <option value="855">MS-DOS 855 - Cyrillic</option>
+                                    <option value="857">MS-DOS 857 - Turkish</option>
+                                    <option value="860">MS-DOS 860 - Portuguese</option>
+                                    <option value="861">MS-DOS 861 - Icelandic</option>
+                                    <option value="862">MS-DOS 862 - Hebrew</option>
+                                    <option value="863">MS-DOS 863 - French Canada</option>
+                                    <option value="865">MS-DOS 865 - Nordic</option>
+                                    <option value="866">MS-DOS 866 - Cyrillic</option>
+                                    <option value="869">MS-DOS 869 - Greek 2</option>
+                                    <option value="28591">ISO-8859-1 - Latin 1, Western European</option>
+                                    <option value="28592">ISO-8859-2 - Latin 2, Central European</option>
+                                    <option value="28593">ISO-8859-3 - Latin 3, South European</option>
+                                    <option value="28594">ISO-8859-4 - Latin 4, North European</option>
+                                    <option value="28595">ISO-8859-5 - Cyrillic</option>
+                                    <option value="28596">ISO-8859-6 - Arabic</option>
+                                    <option value="28597">ISO-8859-7 - Greek</option>
+                                    <option value="28598">ISO-8859-8 - Hebrew</option>
+                                    <option value="28599">ISO-8859-9 - Latin-5, Turkish</option>
+                                    <option value="28600">ISO-8859-10 - Latin-6, Nordic</option>
+                                    <option value="28601">ISO-8859-11 - Thai</option>
+                                    <option value="28603">ISO-8859-13 - Latin-7, Baltic</option>
+                                    <option value="28604">ISO-8859-14 - Latin-8, Celtic</option>
+                                    <option value="28605">ISO-8859-15 - Latin 9</option>
+                                    <option value="28606">ISO-8859-16 - Latin 10, South-Eastern European</option>
+                                    <option value="65001">UTF-8</option>
+                                    <option value="1200">UTF-16LE - UTF-16 Little Endian</option>
+                                    <option value="1201">UTF-16BE - UTF-16 Big Endian</option>
+                                    <option value="10000">MAC CP10000 Roman</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="973" default="0">
+                                <label for="unicode-output">Unicode Output Control</label>
+                                <select id="unicode-output" name="unicode-output">
+                                    <option value="0">Universal Output</option>
+                                    <option value="1">Unicode Application Only</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="972" default="0">
+                                <label for="cjk-output">CJK Output Method to Windows</label>
+                                <select id="cjk-output" name="cjk-output">
+                                    <option value="0">Universal CJK</option>
+                                    <option value="34">Japanese Unicode</option>
+                                    <option value="1">Chinese (Simplified) GBK</option>
+                                    <option value="2">Chinese (Simplified) Unicode</option>
+                                    <option value="50">Korean Unicode</option>
+                                    <option value="17">Chinese (Traditional) Big5 (WinXP)</option>
+                                    <option value="19">Chinese (Traditional) Big5 (Win7)</option>
+                                    <option value="18">Chinese (Traditional) Unicode (WinXP)</option>
+                                    <option value="20">Chinese (Traditional) Unicode (Win7)</option>
+                                </select>
+                            </div>            
+                            
+                            <div class="form-group" id="45" default="0">
+                                <label for="transmit-code-id">Transmit Code ID Character</label>
+                                <select id="transmit-code-id" name="transmit-code-id">
+                                    <option value="0">None</option>
+                                    <option value="1">AIM Code ID</option>
+                                    <option value="2">Symbol Code ID</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="137" default="4">
+                                <label for="timeout-between-same-symbols">Timeout Between Same Symbols</label>
+                                <input type="number" id="timeout-between-same-symbols" name="timeout-between-same-symbols" value="4" min="0" max="99" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="144" default="1">
+                                <label for="timeout-between-different-symbols">Timeout Between Different Symbols</label>
+                                <input type="number" id="timeout-between-different-symbols" name="timeout-between-different-symbols" value="1" min="1" max="99" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="400" default="66">
+                                <label for="scanstand-session-timeout">Scanstand Session Timeout</label>
+                                <input type="number" id="scanstand-session-timeout" name="scanstand-session-timeout" value="66" min="2" max="255" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="716" default="6">
+                                <label for="mobile-phone-display-mode-enhanced">Mobile Phone / Display Mode (Enhanced)</label>
+                                <select id="mobile-phone-display-mode-enhanced" name="mobile-phone-display-mode-enhanced">
+                                    <option value="6">Standard</option>
+                                    <option value="7">Enhanced</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="719" default="0">
+                                <label for="pdf-prioritization">PDF Prioritization</label>
+                                <select id="pdf-prioritization" name="pdf-prioritization">
+                                    <option value="0">Disable</option>
+                                    <option value="1">Enable</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="720" default="200">
+                                <label for="pdf-prioritization-timeout">PDF Prioritization Timeout</label>
+                                <input type="number" id="pdf-prioritization-timeout" name="pdf-prioritization-timeout" value="200" min="0" max="5000" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="1118" default="0">
+                                <label for="unsolicited-heartbeat-interval">Unsolicited Heartbeat Interval</label>
+                                <input type="number" id="unsolicited-heartbeat-interval" name="unsolicited-heartbeat-interval" value="0" min="0" max="9999" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="1710" default="0">
+                                <label for="eclevel">Eclevel</label>
+                                <input type="number" id="eclevel" name="eclevel" value="0" min="0" max="255" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="2385" default="0">
+                                <label for="color-camera-mode">Color Camera Mode</label>
+                                <select id="color-camera-mode" name="color-camera-mode">
+                                    <option value="0">Default</option>
+                                    <option value="1">Continuous Mode</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="2075" default="0">
+                                <label for="non-decode-event">Non Decode Event</label>
+                                <select id="non-decode-event" name="non-decode-event">
+                                    <option value="0">Disable</option>
+                                    <option value="1">Transmit to Host</option>
+                                    <option value="2">Transmit to Color Camera</option>
+                                    <option value="3">Transmit to Host and Color Camera</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="2076" default="70">
+                                <label for="non-decode-event-threshold">Non Decode Event Threshold</label>
+                                <input type="number" id="non-decode-event-threshold" name="non-decode-event-threshold" value="70" min="1" max="250" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="1950" default="0">
+                                <label for="decode-range-limit">Decode Range Limit</label>
+                                <select id="decode-range-limit" name="decode-range-limit">
+                                    <option value="0">Disable</option>
+                                    <option value="11">Standard</option>
+                                    <option value="22">Near</option>
+                                    <option value="7">Far</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="2367" default="3">
+                                <label for="extended-timeout-between-decoding-same-symbol">Extended Timeout Between Decodes, 2D Same Symbol</label>
+                                <input type="number" id="extended-timeout-between-decoding-same-symbol" name="extended-timeout-between-decoding-same-symbol" value="3" min="0" max="99" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="802" default="0">
+                                <label for="lock-parameter-scanning">Lock Parameter Scanning</label>
+                                <input type="number" id="lock-parameter-scanning" name="lock-parameter-scanning" value="0" min="0" max="9999" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="803" default="0">
+                                <label for="unlock-parameter-scanning">Unlock Parameter Scanning</label>
+                                <input type="number" id="unlock-parameter-scanning" name="unlock-parameter-scanning" value="0" min="0" max="9999" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="2382" default="0">
+                                <label for="rescan-beep">Rescan Beep</label>
+                                <input type="number" id="rescan-beep" name="rescan-beep" value="0" min="0" max="255" step="1">
+                            </div>
+                            
+                            <div class="form-group" id="2377" default="0">
+                                <label for="motion-detect-mode">Motion Detect Mode</label>
+                                <select id="motion-detect-mode" name="motion-detect-mode">
+                                    <option value="0">Auto</option>
+                                    <option value="1">Object Detect</option>
+                                    <option value="2">Scene Detect</option>
+                                    <option value="3">IR Detect</option>
+                                </select>
+                            </div>
+                            <br>
+                            
+                            <h3 id="beeper">Beeper</h3><br>
+                            
+                            <div class="form-group" id="140" default="3">
+                                <label for="beeper-volume">Beeper Volume</label>
+                                <select id="beeper-volume" name="beeper-volume">
+                                    <option value="0">High</option>
+                                    <option value="1">Medium</option>
+                                    <option value="2">Low</option>
+                                    <option value="3">Auto Volume</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="145" default="1">
+                                <label for="beeper-tone">Beep Tone</label>
+                                <select id="beeper-tone" name="beeper-tone">
+                                    <option value="0">High</option>
+                                    <option value="1">Medium</option>
+                                    <option value="2">Low</option>
+                                    <option value="3">OFF</option>
+                                    <option value="4">Medium to High (2-tone)</option>
+                                    <option value="6">Tone 1 - Wood Block</option>
+                                    <option value="7">Tone 2 - Pulse</option>
+                                    <option value="8">Tone 3 - Chime</option>
+                                    <option value="9">Tone 4 - Zap</option>
+                                    <option value="10">Tone 5 - Triple Beep</option>
+                                    <option value="11">Tone 6 - User Programmable</option>
+                                </select>
+                            </div>
+                            
+                            <label>Set Custom Scan Tone</label>
+                            <p>“Tone 6 – User Programmable Tone”</p>
+                            <div class="form-group" id="5016" default="0">
+                                <label for="scan-tone-buffer">ScanToneBuffer</label>
+                                <select id="scan-tone-buffer" name="scan-tone-buffer">
+                                    <option value="0">65501</option>
+                                    <option value="1">Wav Files (*.wav, *.wave)|*.wav; *.wave</option>
+                                    <option value="2">52494646........57415645666d7420........01000100803e0000007d000002001000</option>
+                                    <option value="3">5017</option>
+                                    <option value="4">6024</option>
+                                    <option value="5">145</option>
+                                    <option value="6">11</option>
+                                    <option value="7">The selected audio file does not meet the audio file requirements of file format (.wav), sampling rate (16kHz) or sample size (16 bits).</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="5018" default="No Custom Tone">
+                                <label for="scan-tone-name">Scan Tone Name</label>
+                                <input type="text" id="scan-tone-name" name="scan-tone-name" value="No Custom Tone">
+                            </div>
+                            
+                            <div class="form-group" id="56" default="1">
+                                <label for="beep-after-good-decode">Beep After Good Decode</label>
+                                <input type="checkbox" id="beep-after-good-decode" name="beep-after-good-decode" checked>
+                            </div>
+                            
+                            <div class="form-group" id="628" default="1">
+                                <label for="beeper-duration">Beeper Duration</label>
+                                <select id="beeper-duration" name="beeper-duration">
+                                    <option value="0">Short</option>
+                                    <option value="1">Medium</option>
+                                    <option value="2">Long</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="744" default="2">
+                                <label for="led-on-good-decode">LED on Good Decode</label>
+                                <select id="led-on-good-decode" name="led-on-good-decode">
+                                    <option value="0">Disable LED on Good Decode</option>
+                                    <option value="2">Enable LED on Good Decode</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="1287" default="1">
+                                <label for="tone-volume-button">Tone/Volume Button</label>
+                                <select id="tone-volume-button" name="tone-volume-button">
+                                    <option value="0">Disable Tone, Disable Volume</option>
+                                    <option value="1">Enable Tone, Enable Volume</option>
+                                    <option value="2">Disable Tone, Enable Volume</option>
+                                    <option value="3">Enable Tone, Disable Volume</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="721" default="0">
+                                <label for="suppress-power-up-beeps">Suppress Power Up Beeps</label>
+                                <input type="checkbox" id="suppress-power-up-beeps" name="suppress-power-up-beeps">
+                            </div>
+                            
+                            <div class="form-group" id="2359" default="0">
+                                <label for="audio-output">Audio Output</label>
+                                <select id="audio-output" name="audio-output">
+                                    <option value="0">Internal</option>
+                                    <option value="1">External</option>
+                                </select>
+                            </div>
+                            <br>
+                            
+                
+                <h3 id="statistics">Statistics</h3><br>
+                
+                <div class="form-group" id="1755" default="0x1f 0x4e">
+                    <label for="code-list">Save Image of Slowest Decodes</label>
+                    <select id="code-list" name="code-list">
+                        <option value="0x30 0x8e">1</option>
+                        <option value="0x3d 0x3c">UPC</option>
+                        <option value="0x44 0x3c">EAN/JAN</option>
+                        <option value="0x4b 0x3c">Code 39</option>
+                        <option value="0x52 0x3c">Code 128</option>
+                        <option value="0x59 0x3c">2 of 5</option>
+                        <option value="0x60 0x3c">Codebar</option>
+                        <option value="0x67 0x3c">Code 93</option>
+                        <option value="0x6e 0x3c">MSI</option>
+                        <option value="0x75 0x3c">Code 11</option>
+                        <option value="0x7c 0x3c">PDF</option>
+                        <option value="0x83 0x3c">Datamatrix</option>
+                        <option value="0x8a 0x3c">QR</option>
+                        <option value="0x91 0x3c">Postal Codes</option>
+                        <option value="0x98 0x3c">GS1 Databar</option>
+                        <option value="0x9f 0x3c">Composite</option>
+                        <option value="0xad 0x3c">Aztec</option>
+                        <option value="0xa6 0x3c">OCR</option>
+                        <option value="0x2b 0x3d">Maxicode</option>
+                        <option value="0x39 0x3d">GS1-Datamatrix</option>
+                        <option value="0x40 0x3d">GS1-QR Code</option>
+                        <option value="0x32 0x3d">Coupon</option>
+                        <option value="0xab 0x3d">Digimarc UPC</option>
+                        <option value="0xb6 0x3d">Digimarc EAN/JAN</option>
+                        <option value="0xa0 0x3d">Digimarc Other</option>
+                        <option value="0xb4 0x3c">Other 1D</option>
+                        <option value="0xbb 0x3c">Other 2D</option>
+                        <option value="0xc2 0x3c">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="1756" default="0">
+                    <label for="threshold">Only Save Image Slower than</label>
+                    <select id="threshold" name="threshold">
+                        <option value="0">No threshold</option>
+                        <option value="1">75ms</option>
+                        <option value="2">110ms</option>
+                        <option value="3">170ms</option>
+                        <option value="4">300ms</option>
+                        <option value="5">600ms</option>
+                        <option value="6">1000ms</option>
+                        <option value="7">1500ms</option>
+                    </select>
+                </div>
+                <br>
+                
+                <h3 id="eas">EAS</h3><br>
+                
+                <div class="form-group" id="977" default="8">
+                    <label for="eas-operating-modes">EAS Operating Modes</label>
+                    <select id="eas-operating-modes" name="eas-operating-modes">
+                        <option value="8">EAS Disable Mode</option>
+                        <option value="0">Sensormatic Auto</option>
+                        <option value="1">Sensormatic Always Enable Deactivation</option>
+                        <option value="2">Sensormatic Barcode Interlock</option>
+                        <option value="3">Sensormatic Barcode Auto Interlock</option>
+                        <option value="4">Sensormatic Hold Off</option>
+                        <option value="5">Sensormatic Scan Enable Interlock</option>
+                        <option value="6">Checkpoint Barcode Interlock</option>
+                        <option value="7">Checkpoint Scan Enable Interlock</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="979" default="1">
+                    <label for="sensormatic-eas-deactivation">Sensormatic EAS Deactivation</label>
+                    <select id="sensormatic-eas-deactivation" name="sensormatic-eas-deactivation">
+                        <option value="0">Sensormatic Disable EAS Deactivation</option>
+                        <option value="1">Sensormatic Enable EAS Deactivation</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="980" default="1">
+                    <label for="sensormatic-eas-tag-detected-any-time-beep">Sensormatic EAS Tag Detected Any Time Beep</label>
+                    <select id="sensormatic-eas-tag-detected-any-time-beep" name="sensormatic-eas-tag-detected-any-time-beep">
+                        <option value="0">Disable Detected Any Time Beep</option>
+                        <option value="1">Enable Detected Any Time Beep</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="984" default="1">
+                    <label for="sensormatic-soft-tag-beeps">Sensormatic Soft Tag Beeps</label>
+                    <select id="sensormatic-soft-tag-beeps" name="sensormatic-soft-tag-beeps">
+                        <option value="0">Disable Soft Tag Beep</option>
+                        <option value="1">Soft Tag Beep 1</option>
+                        <option value="2">Soft Tag Beep 2</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="985" default="1">
+                    <label for="sensormatic-hard-tag-beeps">Sensormatic Hard Tag Beeps</label>
+                    <select id="sensormatic-hard-tag-beeps" name="sensormatic-hard-tag-beeps">
+                        <option value="0">Disable Hard Tag Beep</option>
+                        <option value="1">Hard Tag Beep 1</option>
+                        <option value="2">Hard Tag Beep 2</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="982" default="10">
+                    <label for="sensormatic-deactivation-timeout">Sensormatic Deactivation Timeout</label>
+                    <input type="number" id="sensormatic-deactivation-timeout" name="sensormatic-deactivation-timeout" value="10" min="1" max="29" step="2">
+                </div>
+                
+                <div class="form-group" id="983" default="1">
+                    <label for="checkpoint-interlock-polarity">Checkpoint Interlock Polarity</label>
+                    <select id="checkpoint-interlock-polarity" name="checkpoint-interlock-polarity">
+                        <option value="0">Active Low</option>
+                        <option value="1">Active High</option>
+                    </select>
+                </div>
+                <br>
+                
+                <div class="form-group" id="2359" default="0">
+                    <label for="audio-output">Audio Output</label>
+                    <select id="audio-output" name="audio-output">
+                        <option value="0">Internal</option>
+                        <option value="1">External</option>
+                    </select>
+                </div>
+                <br>
+                
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="updateConfiguration">Generate XML</button>
+                <div id="xmlOutput" class="xml-output"></div>
+                
+            
+            </div>
+        </div>
+
        </div>
+
+
+
+
     </div>
 
 
@@ -250,7 +855,7 @@
 
     <div id="loading">
        
-        <img src="img/Loading4.gif" alt="Zebra Logo" class="img2">
+        <img src="Styles/img/Loading4.gif" alt="Zebra Logo" class="img2">
     </div>
 
     
@@ -260,13 +865,23 @@
 
 </div>
 
-    <script src="js/Common.js"></script>
-    <script src="js/RSM_HID.js"></script>
-    <script src="js/RSM_Serial.js"></script>
-    <script src="js/Webscanner.js"></script>
-    <script src="js/FirmwareDownload.js"></script>
-    <script src="js/deviceInfo_USB.js"></script>
-    
+
+
+
+    <script src="Scripts/js/Common/Common.js"></script>
+    <script src="Scripts/js/Device_Configuration_basic/RSM_Command_Handling_USB.js"></script>
+    <script src="Scripts/js/Device_Configuration_basic/RSM_command_handling_Serial.js"></script>
+    <script src="Scripts/js/Device_Connections/Device_connections_USB.js"></script>
+    <script src="Scripts/js/Device_Connections/Device_Connections_Serial.js"></script>
+    <script src="Scripts/js/Device_Connections/Device_Connections_Bluetooth.js"></script>
+    <script src="Scripts/js/Webscanner.js"></script>
+    <script src="Scripts/js/Firmware_Update/Firmware_Download.js"></script>
+    <script src="Scripts/js/Device_info_update/Device_Info_Update_USB.js"></script>
+    <script src="Scripts/js/Device_info_update/Device_Info_Update_Serial.js"></script>
+    <script src="Scripts/js/Device_info_update/Device_info_Update.js"></script>
+    <script src="Scripts/js/Device_Configuration/Device_Configuration.js"></script>
+    <script src="Scripts/js/Device_Configuration/Device_Configuration_USB.js"></script>
+    <script src="Scripts/js/Device_Configuration/Device_Configuration_Serial.js"></script>
 </body>
 </html>
 

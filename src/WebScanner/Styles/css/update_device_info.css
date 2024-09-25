@@ -2,9 +2,11 @@
 
 .buttontype1 {
     position: relative;
-    width: 80px;
-    top: 10px;
-    padding: 10px 10px;
+    width: 60px;
+    top: 0px;
+    left: 20px;
+    height: 30px;
+    padding: 5px 5px;
     border: 1px solid #5e7bc4; 
     border-radius: 5px;
     background-color: #5e7bc4; 
@@ -58,3 +60,10 @@
 .input-group2 input[type="file"] {
     display: none;
 }
+
+.update-device-info-group{
+    display: flex;
+    flex-direction: row;
+}
+
+

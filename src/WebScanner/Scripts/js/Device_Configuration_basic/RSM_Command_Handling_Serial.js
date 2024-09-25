@@ -25,7 +25,7 @@ let pckt_offset_serial=0;
 function ProcessRSMCommandsSerial(data){
     let intarray;
     
-   
+      console.log("came");
       datalen=(data[4] << 8) | data[5];
 
 
@@ -116,11 +116,11 @@ async function GetOffsetSerial(offset){
 
 }
 // Get value serial -----------------------------------------------------------------------------------------------
-  async function GetValueSerial() {
+  async function ATT_Get_Serial(id) {
     try {
-      const input = parseInt(document.getElementById('get-value-input').value);
-      const IDmsb= (input >> 8) & 0xFF;
-      const IDlsb =input & 0xFF;
+      
+      const IDmsb= (id >> 8) & 0xFF;
+      const IDlsb =id & 0xFF;
       const data =[
         0x0a, 0x80, 0x04, 0x00, 0x00, 0x06, 0x02 ,0x00,IDmsb,IDlsb
       ]
@@ -234,20 +234,32 @@ async function Request_parameterSerial(param_num){
     if(startup){
        updateDeviceInfo();
     }
+    else if(switchHostmodeEnable){
+      processswitchHostMode_Serial();
+  
+    }
     else{
        update_table();
     }
 }
 
-// Switch host mode -------------------------------------------------------------------------------------------
 
-function switchHostModeSerial(){
-  Set_parameterSerial(20010,'B',0,1);
+// Set Paramert USB-----------------------------------------------------------------------------------------------------
 
+function ATT_Set_Serial(id,type,property,value){
+  ATT_SetStore_Serial(id,type,property,value,0x05);
 
 }
-async function Set_parameterSerial(id,type,property,value){
 
+// Set Paramert USB-----------------------------------------------------------------------------------------------------
+
+function ATT_Store_Serial(id,type,property,value){
+  ATT_SetStore_Serial(id,type,property,value,0x06);
+}
+
+
+async function ATT_SetStore_Serial(id,type,property,value,cmd){
+  
   id = parseInt(id, 10);
   const id_lsb = (id & 0xFF);          
   const id_msb = (id >> 8) & 0xFF;
@@ -258,9 +270,18 @@ async function Set_parameterSerial(id,type,property,value){
 
   let byteArray = [];
 
- if (type === 70) {
-     byteArray = [value & 0xFF];
+ if(type==65){
+  byteArray=value;
  }
+ else{
+  byteArray = [value & 0xFF];
+
+ }
+ 
+ 
+
+
+ console.log(byteArray);
 
  let array_len=byteArray.length+8
  const len_lsb = (array_len & 0xFF);          
@@ -268,7 +289,7 @@ async function Set_parameterSerial(id,type,property,value){
 
 
  let data = [
-  0x0a, 0x80, 0x04, 0x00,len_msb, len_lsb, 0x05 ,0x00,
+  0x0a, 0x80, 0x04, 0x00,len_msb, len_lsb, cmd ,0x00,
   id_msb,id_lsb, type, property];
 
   data = data.concat(byteArray);
@@ -291,4 +312,179 @@ async function Set_parameterSerial(id,type,property,value){
     console.error('Error sending data:', error);    
 }
 } 
+
+// Attribute set multipacket
+function ATT_Set_MultiPacket_Serial(id,type,property,value){
+  ATT_SetStore_Multipacket_Serial(id,type,property,value,0x05);
+}
+//Attribute Store multipacket------------------------------------------------
+function ATT_Store_Multipacket_Serial(id,type,property,value){
+  ATT_SetStore_Multipacket_Serial(id,type,property,value,0x06);
+}
+
+// Atreribute swtstore  in serial
+async function ATT_SetStore_Multipacket_Serial(id,type,property,value,cmdtype){
+  let ValueLenght=value.length;
+  console.log(ValueLenght);
+ let chunkSize = 227;
+ 
+ if(ValueLenght<227){
+     value_ATT_SetStore240pckt=value.slice(0, ValueLenght);
+     sendData_240pcktOffsetSerial(id,type,property,0x00,value_ATT_SetStore240pckt,ValueLenght,0x00,cmdtype)
+ 
+ }
+ else{
+         value_ATT_SetStore240pckt = value.slice(startIndex_ATT_SetStore, startIndex_ATT_SetStore + chunkSize);
+         startIndex_ATT_SetStore += chunkSize;
+         await sendData_240pcktOffsetSerial(id,type,property,0x00,value_ATT_SetStore240pckt,ValueLenght,offset_ATT_SetStore,cmdtype)
+         offset_ATT_SetStore+=227;
+    
+ }
+  
+ }
+ 
+ // Send packet data (240 )via USB -Frist 32packet stat of the set offset------------------------------
+ async function sendData_240pcktOffsetSerial(id, type, property,subProperty,value,lenght,offset,cmdtype){
+ 
+     let valuelength=value.length;
+     let valueOffset;
+     let datatoWrite=[];
+     
+    
+     const id_msb = (id >> 8) & 0xFF; 
+     const id_lsb = id & 0xFF;
+ 
+     const length_msb = (lenght >> 8) & 0xFF;  
+     const length_lsb = lenght & 0xFF;
+ 
+     const offset_msb = (offset >> 8) & 0xFF;  
+     const offset_lsb = offset& 0xFF;
+ 
+ 
+     const TotalPacketLenght=valuelength+13;
+     const TotalPacketLenght_msb = (TotalPacketLenght >> 8) & 0xFF;  
+     const TotalPacketLenght_lsb = TotalPacketLenght & 0xFF;
+ 
+     
+     let data = [
+         TotalPacketLenght_msb, TotalPacketLenght_lsb, cmdtype,0x00, id_msb, id_lsb, type, property,
+         subProperty, length_msb, length_lsb,  offset_msb, offset_lsb,
+      
+       ];
+
+
+       datatoWrite[0]=valuelength+17;
+       datatoWrite[1]=0x80;
+       datatoWrite[2]=0x04;
+       datatoWrite[3]=0x00;
+       datatoWrite.splice(4, 0, ...data);
+       datatoWrite.splice(17, 0, ...value);
+
+       const checksum= getChecksum(new Uint8Array(datatoWrite));
+       datatoWrite.splice(datatoWrite.length, 0, ...checksum);
+
+       try {
+          
+          if (datatoWrite && SerialWriter) {  
+              await SerialWriter.write(new Uint8Array(datatoWrite));
+              console.log('Sent:', new Uint8Array(datatoWrite) ,"Offset:",offset);
+          } else {
+              console.log('No data to send or writer not initialized.');   
+          }
+      } catch (error) {
+          console.error('Error sending data:', error);  
+      }
+ 
+
+  
+ }
+ 
+ //Process  device infor update USB------------------------------------------------------------------
+ async function ATT_SetStore_Responce_Serial(data,cmd){
+
+     
+         updateProgressbar2(offset_ATT_SetStore,value_ATT_SetStore.length);
+ 
+         
+         
+         console.log("ACK Recived : ATT Store");
+         let ValueLenght=value_ATT_SetStore.length;
+         let chunkSize = 227;
+ 
+        if(startIndex_ATT_SetStore < ValueLenght) {
+ 
+           if((ValueLenght-startIndex_ATT_SetStore)<227 ){
+              value_ATT_SetStore240pckt = value_ATT_SetStore.slice(startIndex_ATT_SetStore,ValueLenght);
+              startIndex_ATT_SetStore=ValueLenght;
+              offset_ATT_SetStore=ValueLenght;
+              await sendData_240pcktOffsetSerial(id_ATT_SetStore,type_ATT_SetStore,property_ATT_SetStore,0x00,value_ATT_SetStore240pckt,ValueLenght,offset_ATT_SetStore,cmd)
+               offset_ATT_SetStore=ValueLenght;
+               EndDeviceinforUpdate=true;
+          }
+           else{
+              value_ATT_SetStore240pckt = value_ATT_SetStore.slice(startIndex_ATT_SetStore, startIndex_ATT_SetStore + chunkSize);
+             startIndex_ATT_SetStore += chunkSize;
+             await sendData_240pcktOffsetSerial(id_ATT_SetStore,type_ATT_SetStore,property_ATT_SetStore,0x00,value_ATT_SetStore240pckt,ValueLenght,offset_ATT_SetStore,cmd)
+             offset_ATT_SetStore+=227;
+              }
+         
+           
+            
+     }
+     
+ 
+  }
+
+
+  // Switch host mode -------------------------------------------------------------------------------------------
+
+async function switchHostModeSerial(){
+  //WebScannerAlert("Switch host mode is currenlty unavailable in Serial COM mode")
+  switchHostmodeEnable=true;
+  await EnableSwitchhostSerial();
+  await ATT_Get_Serial(135);
+}
+
+async function EnableSwitchhostSerial(){
+  ATT_Set_Serial(20010,'B',0x00,0x01);
+}
+
+
+async function processswitchHostMode_Serial(){
+
+  let hexArray = paramValueStr.split(' ').map(hex => parseInt(hex, 16));
+  hexArray=hexArray.slice(13);
+  console.log(hexArray);
+
+
+ 
+  let prependArray = [
+    0x5F, 0x80, 0x04, 0x00,0x00, 0x5D, 0x05, 0x00, 0x00,
+    0x87, 0x41, 0x00, 0x00, 0x00, 0x50, 0x00, 0x00,];
+   let datatoWrite = prependArray.concat(hexArray);
+    datatoWrite[23]=CurrentHostMode;
+
+    const checksum= getChecksum(new Uint8Array(datatoWrite));
+    datatoWrite=datatoWrite.concat(checksum[0]);
+    datatoWrite=datatoWrite.concat(checksum[1]);
+
+   
+
+   try {
+
+    if (datatoWrite && SerialWriter) {  
+        await SerialWriter.write(new Uint8Array(datatoWrite));
+        console.log('Sent:', new Uint8Array(datatoWrite));
+        
+    } else {
+        console.log('No data to send or writer not initialized.');   
+    }
+} catch (error) {
+    console.error('Error sending data:', error);    
+}
+
+
+RebootSerial();
+location.reload();
+}
   

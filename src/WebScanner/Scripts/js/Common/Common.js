@@ -229,5 +229,37 @@ function WebScannerAlert(message) {
           let hexValue = dataView.getUint8(i).toString(16).padStart(2, '0'); // Convert to hex and pad with zero if necessary
           content.push(hexValue);
         }
-        console.log("DataView Content (Hex):", content.join(' '));
+        console.log(content.join(' '));
       }
+
+
+  
+  //Conver to abytearray
+
+  function convertToByteArray() {
+
+    if (!xmlContent) {
+        alert('No file content loaded!');
+        return;
+    }
+    value_Attstore = [];
+    for (let i = 0; i < xmlContent.length; i++) {
+        value_Attstore.push(xmlContent.charCodeAt(i));
+    }
+
+    const length=value_Attstore.length
+    const length_msb = (length >> 8) & 0xFF;  
+    const length_lsb = length & 0xFF;
+    value_Attstore.unshift(length_msb, length_lsb);
+    console.log(value_Attstore);
+    
+}
+
+//Refressh app
+
+function RefreshApp(){
+  DeviceInfoUpdate=false;
+  firmware_update=false;
+  statup();
+
+}

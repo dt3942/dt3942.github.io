@@ -1,0 +1,1351 @@
+<group name="GENERAL" id="0">
+      <style ui-type="CATEGORY" show-title="false" show-desc="false" indent="falseb"/>
+      <title text-id="1316">General Parameter Settings</title>
+      <desc text-id="697">General Parameters</desc>
+      <group name="General Parameters" id="0">
+        <style ui-type="MASTER-DETAIL" show-title="true" show-desc="true" indent="true"/>
+        <title text-id="697">General Parameters</title>
+        <desc text-id="697">General Parameters</desc>
+        <group name="System" id="0">
+          <style ui-type="DEFAULT" show-title="true" show-desc="true" indent="true"/>
+          <title text-id="309">System</title>
+          <desc text-id="309">System</desc>
+          <parameter name="PID Type" id="1281" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="2656">PID Type</title>
+            <desc text-id="2656">PID Type</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="4686">Host Mode Unique</caption>
+              </option>
+              <option value="1">
+                <caption text-id="2658">Product Unique</caption>
+              </option>
+              <option value="2">
+                <caption text-id="4687">TGCS/IBM Unique</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="PID Value" id="1725" value-type="W" permission="R W P">
+            <style ui-type="TEXT"/>
+            <title text-id="4538">PID Value</title>
+            <desc text-id="4698">PID Value
+0 = Use mfg assigned PID
+other = User defined PID</desc>
+            <default-value>0</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="1649"/>
+              <stepper value="1"/>
+              <measurement value=""/>
+              <valuetype value="W"/>
+            </options>
+          </parameter>
+          <parameter name="4690 Flash Update" id="1727" value-type="F" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="4684">4690 Flash Update</title>
+            <desc text-id="4684">4690 Flash Update</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="400">Disable</caption>
+              </option>
+              <option value="1">
+                <caption text-id="401">Enable</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Parameter Scanning Allowed" id="236" value-type="F" permission="R W P">
+            <style ui-type="TICKEX"/>
+            <title text-id="847">Parameter Scanning Allowed</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>1</default-value>
+            <options data-type="FLAG">
+              <option value="0">
+                <caption text-id="400">Disable</caption>
+              </option>
+              <option value="1">
+                <caption text-id="401">Enable</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Keyboard Country Type" id="960" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9201">Keyboard Country Type</title>
+            <desc text-id="9201">Keyboard Country Type</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="421">North American</caption>
+              </option>
+              <option value="111">
+                <caption text-id="3871">US English (MAC)</caption>
+              </option>
+              <option value="19">
+                <caption text-id="2331">Albanian</caption>
+              </option>
+              <option value="94">
+                <caption text-id="2332">Arabic101</caption>
+              </option>
+              <option value="107">
+                <caption text-id="2333">Arabic102</caption>
+              </option>
+              <option value="108">
+                <caption text-id="3872">Arabic (102) AZERTY</caption>
+              </option>
+              <option value="20">
+                <caption text-id="2335">Azeri Latin</caption>
+              </option>
+              <option value="76">
+                <caption text-id="2336">Azeri Cyrillic</caption>
+              </option>
+              <option value="77">
+                <caption text-id="2337">Belarusian</caption>
+              </option>
+              <option value="8">
+                <caption text-id="2338">Belgian French</caption>
+              </option>
+              <option value="21">
+                <caption text-id="2339">Bosnian Latin</caption>
+              </option>
+              <option value="100">
+                <caption text-id="2340">Bosnian Cyrillic</caption>
+              </option>
+              <option value="23">
+                <caption text-id="2341">Bulgarian Latin</caption>
+              </option>
+              <option value="78">
+                <caption text-id="2342">Bulgarian Cyrillic (Typewriter)</caption>
+              </option>
+              <option value="101">
+                <caption text-id="2343">Canadian French Win7</caption>
+              </option>
+              <option value="102">
+                <caption text-id="2344">Canadian French (Legacy)</caption>
+              </option>
+              <option value="24">
+                <caption text-id="2994">Canadian Multilingual Standard</caption>
+              </option>
+              <option value="109">
+                <caption text-id="2346">Chinese ASCII</caption>
+              </option>
+              <option value="95">
+                <caption text-id="3873">Chinese (Simplified)</caption>
+              </option>
+              <option value="98">
+                <caption text-id="3874">Chinese (Traditional)</caption>
+              </option>
+              <option value="25">
+                <caption text-id="2347">Croatian</caption>
+              </option>
+              <option value="26">
+                <caption text-id="2348">Czech</caption>
+              </option>
+              <option value="27">
+                <caption text-id="2349">Czech Programmer</caption>
+              </option>
+              <option value="28">
+                <caption text-id="2350">Czech QWERTY</caption>
+              </option>
+              <option value="30">
+                <caption text-id="2351">Danish</caption>
+              </option>
+              <option value="31">
+                <caption text-id="2352">Dutch Netherland</caption>
+              </option>
+              <option value="32">
+                <caption text-id="2353">Estonian</caption>
+              </option>
+              <option value="33">
+                <caption text-id="2354">Faeroese</caption>
+              </option>
+              <option value="34">
+                <caption text-id="2355">Finnish</caption>
+              </option>
+              <option value="9">
+                <caption text-id="2356">French (France)</caption>
+              </option>
+              <option value="11">
+                <caption text-id="2357">French (Canada) 95/98</caption>
+              </option>
+              <option value="17">
+                <caption text-id="2358">French (Canada) 2000/XP</caption>
+              </option>
+              <option value="35">
+                <caption text-id="2359">Galician</caption>
+              </option>
+              <option value="10">
+                <caption text-id="478">German</caption>
+              </option>
+              <option value="36">
+                <caption text-id="2360">Greek Latin </caption>
+              </option>
+              <option value="37">
+                <caption text-id="2361">Greek220 Latin</caption>
+              </option>
+              <option value="38">
+                <caption text-id="2362">Greek319 Latin</caption>
+              </option>
+              <option value="87">
+                <caption text-id="2363">Greek</caption>
+              </option>
+              <option value="88">
+                <caption text-id="2364">Greek220</caption>
+              </option>
+              <option value="89">
+                <caption text-id="2365">Greek319</caption>
+              </option>
+              <option value="91">
+                <caption text-id="2366">Greek Polytonic</caption>
+              </option>
+              <option value="92">
+                <caption text-id="2367">Hebrew Israel</caption>
+              </option>
+              <option value="39">
+                <caption text-id="2368">Hungarian</caption>
+              </option>
+              <option value="40">
+                <caption text-id="2369">Hungarian 101 key</caption>
+              </option>
+              <option value="42">
+                <caption text-id="2370">Icelandic</caption>
+              </option>
+              <option value="43">
+                <caption text-id="2371">Irish</caption>
+              </option>
+              <option value="13">
+                <caption text-id="481">Italian</caption>
+              </option>
+              <option value="44">
+                <caption text-id="2372">Italian 142</caption>
+              </option>
+              <option value="16">
+                <caption text-id="2373">Japanese ASCII</caption>
+              </option>
+              <option value="96">
+                <caption text-id="3875">Japanese (SHIFT-JIS)</caption>
+              </option>
+              <option value="79">
+                <caption text-id="2374">Kazakh</caption>
+              </option>
+              <option value="110">
+                <caption text-id="2375">Korean ASCII</caption>
+              </option>
+              <option value="97">
+                <caption text-id="3876">Korean (Hangul)</caption>
+              </option>
+              <option value="80">
+                <caption text-id="2376">Kyrgyz</caption>
+              </option>
+              <option value="45">
+                <caption text-id="2377">Latin American</caption>
+              </option>
+              <option value="46">
+                <caption text-id="2378">Latvian</caption>
+              </option>
+              <option value="47">
+                <caption text-id="2379">Latvian QWERTY</caption>
+              </option>
+              <option value="48">
+                <caption text-id="2380">Lithuanian</caption>
+              </option>
+              <option value="49">
+                <caption text-id="2381">Lithuanian IBM</caption>
+              </option>
+              <option value="81">
+                <caption text-id="2382">Macedonian(FYROM)</caption>
+              </option>
+              <option value="50">
+                <caption text-id="2383">Maltese_47KEY</caption>
+              </option>
+              <option value="82">
+                <caption text-id="2384">Mongolian</caption>
+              </option>
+              <option value="51">
+                <caption text-id="2385">Norwegian</caption>
+              </option>
+              <option value="52">
+                <caption text-id="2386">Polish 214</caption>
+              </option>
+              <option value="54">
+                <caption text-id="2387">Polish Programmer</caption>
+              </option>
+              <option value="18">
+                <caption text-id="2388">Portuguese Brazil</caption>
+              </option>
+              <option value="104">
+                <caption text-id="2389">Portuguese Brazilian ABNT</caption>
+              </option>
+              <option value="105">
+                <caption text-id="2390">Portuguese Brazilian ABNT2</caption>
+              </option>
+              <option value="99">
+                <caption text-id="2391">Portuguese Portugal</caption>
+              </option>
+              <option value="160">
+                <caption text-id="2392">Romanian</caption>
+              </option>
+              <option value="55">
+                <caption text-id="2393">Romanian Legacy</caption>
+              </option>
+              <option value="56">
+                <caption text-id="2394">Romanian Standard</caption>
+              </option>
+              <option value="57">
+                <caption text-id="2395">Romanian Programmer</caption>
+              </option>
+              <option value="73">
+                <caption text-id="2396">Russian</caption>
+              </option>
+              <option value="75">
+                <caption text-id="2397">Russian Typewriter</caption>
+              </option>
+              <option value="58">
+                <caption text-id="2398">Serbian</caption>
+              </option>
+              <option value="83">
+                <caption text-id="2995">Serbian Cyrillic</caption>
+              </option>
+              <option value="59">
+                <caption text-id="2400">Slovak</caption>
+              </option>
+              <option value="60">
+                <caption text-id="2401">Slovak QWERTY</caption>
+              </option>
+              <option value="62">
+                <caption text-id="2402">Slovenian</caption>
+              </option>
+              <option value="12">
+                <caption text-id="480">Spanish</caption>
+              </option>
+              <option value="63">
+                <caption text-id="2403">Spanish Variation</caption>
+              </option>
+              <option value="14">
+                <caption text-id="482">Swedish</caption>
+              </option>
+              <option value="64">
+                <caption text-id="2404">Swiss French</caption>
+              </option>
+              <option value="65">
+                <caption text-id="2405">Swiss German</caption>
+              </option>
+              <option value="84">
+                <caption text-id="2406">Tatar</caption>
+              </option>
+              <option value="93">
+                <caption text-id="2407">Thai-Kedmanee</caption>
+              </option>
+              <option value="66">
+                <caption text-id="2408">Turkish F</caption>
+              </option>
+              <option value="67">
+                <caption text-id="2409">Turkish Q</caption>
+              </option>
+              <option value="15">
+                <caption text-id="1092">UK English</caption>
+              </option>
+              <option value="85">
+                <caption text-id="2410">Ukrainian</caption>
+              </option>
+              <option value="68">
+                <caption text-id="2411">US Dvorak</caption>
+              </option>
+              <option value="69">
+                <caption text-id="2412">US Dvorak Left</caption>
+              </option>
+              <option value="70">
+                <caption text-id="2413">US Dvorak Right</caption>
+              </option>
+              <option value="71">
+                <caption text-id="2414">US International</caption>
+              </option>
+              <option value="86">
+                <caption text-id="2415">Uzbek</caption>
+              </option>
+              <option value="72">
+                <caption text-id="2416">Vietnamese</caption>
+              </option>
+              <option value="255">
+                <caption text-id="4021">Non-CJK</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Country Code Page" id="961" value-type="W" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="3023">Country Code Page</title>
+            <desc text-id="3023">Country Code Page</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="3024">Default for a set Country Type</caption>
+              </option>
+              <option value="1250">
+                <caption text-id="3025">Windows 1250 - Latin 2, Central European</caption>
+              </option>
+              <option value="1251">
+                <caption text-id="3026">Windows 1251 - Cyrillic/Slavic</caption>
+              </option>
+              <option value="1252">
+                <caption text-id="3027">Windows 1252 - Latin 1, Western European</caption>
+              </option>
+              <option value="1253">
+                <caption text-id="3028">Windows 1253 - Greek</caption>
+              </option>
+              <option value="1254">
+                <caption text-id="3029">Windows 1254 - Latin 5, Turkish</caption>
+              </option>
+              <option value="1255">
+                <caption text-id="3030">Windows 1255 - Hebrew</caption>
+              </option>
+              <option value="1256">
+                <caption text-id="3031">Windows 1256 - Arabic</caption>
+              </option>
+              <option value="1257">
+                <caption text-id="3032">Windows 1257 - Baltic</caption>
+              </option>
+              <option value="1258">
+                <caption text-id="3033">Windows 1258 - Vietnamese</caption>
+              </option>
+              <option value="874">
+                <caption text-id="3034">Windows 874  - Thai</caption>
+              </option>
+              <option value="20866">
+                <caption text-id="3035">Windows 20866 - Cyrillic KOI8-R</caption>
+              </option>
+              <option value="932">
+                <caption text-id="3036">Windows 932  - Japanese Shift-JIS</caption>
+              </option>
+              <option value="936">
+                <caption text-id="3037">Windows 936  - Simplified Chinese GBK</caption>
+              </option>
+              <option value="54936">
+                <caption text-id="3038">Windows 54936 - Simplified Chinese GB18030 </caption>
+              </option>
+              <option value="949">
+                <caption text-id="3039">Windows 949  - Korean Hangul</caption>
+              </option>
+              <option value="950">
+                <caption text-id="3040">Windows 950  - Traditional Chinese Big5 </caption>
+              </option>
+              <option value="437">
+                <caption text-id="3041">MS-DOS 437 - Latin US</caption>
+              </option>
+              <option value="737">
+                <caption text-id="3042">MS-DOS 737 - Greek</caption>
+              </option>
+              <option value="775">
+                <caption text-id="3043">MS-DOS 775 - Baltic</caption>
+              </option>
+              <option value="850">
+                <caption text-id="3044">MS-DOS 850 - Latin 1</caption>
+              </option>
+              <option value="852">
+                <caption text-id="3045">MS-DOS 852 - Latin 2</caption>
+              </option>
+              <option value="855">
+                <caption text-id="3046">MS-DOS 855 - Cyrillic </caption>
+              </option>
+              <option value="857">
+                <caption text-id="3047">MS-DOS 857 - Turkish</caption>
+              </option>
+              <option value="860">
+                <caption text-id="3048">MS-DOS 860 - Portuguese</caption>
+              </option>
+              <option value="861">
+                <caption text-id="3049">MS-DOS 861 - Icelandic  </caption>
+              </option>
+              <option value="862">
+                <caption text-id="3050">MS-DOS 862 - Hebrew</caption>
+              </option>
+              <option value="863">
+                <caption text-id="4022">MS-DOS 863 - French Canada</caption>
+              </option>
+              <option value="865">
+                <caption text-id="3051">MS-DOS 865 - Nordic</caption>
+              </option>
+              <option value="866">
+                <caption text-id="3052">MS-DOS 866 - Cyrillic</caption>
+              </option>
+              <option value="869">
+                <caption text-id="3053">MS-DOS 869 - Greek 2</caption>
+              </option>
+              <option value="28591">
+                <caption text-id="3054">ISO-8859-1 - Latin 1, Western European </caption>
+              </option>
+              <option value="28592">
+                <caption text-id="3055">ISO-8859-2 - Latin 2, Central European</caption>
+              </option>
+              <option value="28593">
+                <caption text-id="3056">ISO-8859-3 - Latin 3, South European </caption>
+              </option>
+              <option value="28594">
+                <caption text-id="3057">ISO-8859-4 - Latin 4, North European </caption>
+              </option>
+              <option value="28595">
+                <caption text-id="3058">ISO-8859-5 - Cyrillic</caption>
+              </option>
+              <option value="28596">
+                <caption text-id="3059">ISO-8859-6 - Arabic</caption>
+              </option>
+              <option value="28597">
+                <caption text-id="3060">ISO-8859-7 - Greek</caption>
+              </option>
+              <option value="28598">
+                <caption text-id="3061">ISO-8859-8 - Hebrew</caption>
+              </option>
+              <option value="28599">
+                <caption text-id="3062">ISO-8859-9 - Latin-5, Turkish</caption>
+              </option>
+              <option value="28600">
+                <caption text-id="3063">ISO-8859-10 - Latin-6, Nordic</caption>
+              </option>
+              <option value="28601">
+                <caption text-id="3064">ISO-8859-11 - Thai</caption>
+              </option>
+              <option value="28603">
+                <caption text-id="3065">ISO-8859-13 - Latin-7, Baltic</caption>
+              </option>
+              <option value="28604">
+                <caption text-id="3066">ISO-8859-14 - Latin-8, Celtic</caption>
+              </option>
+              <option value="28605">
+                <caption text-id="3067">ISO-8859-15 - Latin 9</caption>
+              </option>
+              <option value="28606">
+                <caption text-id="3022">ISO-8859-16 - Latin 10, South-Eastern European</caption>
+              </option>
+              <option value="65001">
+                <caption text-id="3068">UTF-8</caption>
+              </option>
+              <option value="1200">
+                <caption text-id="3069">UTF-16LE - UTF-16 Little Endian</caption>
+              </option>
+              <option value="1201">
+                <caption text-id="3070">UTF-16BE - UTF-16 Big Endian</caption>
+              </option>
+              <option value="10000">
+                <caption text-id="3071">MAC CP10000 Roman</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Unicode Output Control" id="973" value-type="F" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="3885">Unicode Output Control</title>
+            <desc text-id="3885">Unicode Output Control</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="3886">Universal Output</caption>
+              </option>
+              <option value="1">
+                <caption text-id="3887">Unicode Application Only</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="CJK Output Method to Windows" id="972" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="3888">CJK Output Method to Windows</title>
+            <desc text-id="3888">CJK Output Method to Windows</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="3889">Universal CJK</caption>
+              </option>
+              <option value="34">
+                <caption text-id="3890">Japanese Unicode</caption>
+              </option>
+              <option value="1">
+                <caption text-id="3891">Chinese (Simplified) GBK</caption>
+              </option>
+              <option value="2">
+                <caption text-id="3892">Chinese (Simplified) Unicode</caption>
+              </option>
+              <option value="50">
+                <caption text-id="3893">Korean Unicode</caption>
+              </option>
+              <option value="17">
+                <caption text-id="3894">Chinese (Traditional) Big5 (WinXP)</caption>
+              </option>
+              <option value="19">
+                <caption text-id="3895">Chinese (Traditional) Big5 (Win7)</caption>
+              </option>
+              <option value="18">
+                <caption text-id="3896">Chinese (Traditional) Unicode (WinXP)</caption>
+              </option>
+              <option value="20">
+                <caption text-id="3897">Chinese (Traditional) Unicode (Win7)</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="TransmitCodeId" id="45" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="5860">Transmit Code ID Character</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="329">None</caption>
+              </option>
+              <option value="1">
+                <caption text-id="330">AIM Code ID</caption>
+              </option>
+              <option value="2">
+                <caption text-id="331">Symbol Code  ID</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Timeout Between Same Symbols" id="137" value-type="B" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="849">Timeout Between Same Symbols</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>4</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="99"/>
+              <stepper value="1"/>
+              <measurement value="x100ms"/>
+              <valuetype value="B"/>
+            </options>
+          </parameter>
+          <parameter name="Timeout Between Different Symbols" id="144" value-type="B" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="775">Timeout Between Different Symbols</title>
+            <desc text-id="775">Timeout Between Different Symbols</desc>
+            <default-value>1</default-value>
+            <options data-type="RANGE">
+              <min value="1"/>
+              <max value="99"/>
+              <stepper value="1"/>
+              <measurement value="x100ms"/>
+              <valuetype value="B"/>
+            </options>
+          </parameter>
+          <parameter name="Scanstand Session Timeout" id="400" value-type="B" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="1665">Scanstand Session Timeout</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>66</default-value>
+            <options data-type="RANGE">
+              <min value="2"/>
+              <max value="255"/>
+              <stepper value="1"/>
+              <measurement value="x100ms"/>
+              <valuetype value="B"/>
+            </options>
+          </parameter>
+          <parameter name="Mobile Phone / Display Mode (Enhanced)" id="716" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9566">Mobile Phone / Display Mode (Enhanced)</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>6</default-value>
+            <options data-type="ENUM">
+              <option value="6">
+                <caption text-id="1145">Standard</caption>
+              </option>
+              <option value="7">
+                <caption text-id="1384">Enhanced</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="PDF Prioritization" id="719" value-type="F" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="1490">PDF Prioritization</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="400">Disable</caption>
+              </option>
+              <option value="1">
+                <caption text-id="401">Enable</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="PDF Prioritization Timeout" id="720" value-type="W" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="1491">PDF Prioritization Timeout</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>200</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="5000"/>
+              <stepper value="1"/>
+              <measurement value="x1ms"/>
+              <valuetype value="W"/>
+            </options>
+          </parameter>
+          <parameter name="Unsolicited Heartbeat Interval" id="1118" value-type="W" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="2115">Unsolicited Heartbeat Interval</title>
+            <desc text-id="2115">Unsolicited Heartbeat Interval</desc>
+            <default-value>0</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="9999"/>
+              <stepper value="1"/>
+              <measurement value="x 1 sec"/>
+              <valuetype value="W"/>
+            </options>
+          </parameter>
+          <parameter name="Eclevel" id="1710" value-type="W" permission="R W P">
+            <style ui-type="TEXT"/>
+            <title text-id="4919">Eclevel</title>
+            <desc text-id="4919">Eclevel</desc>
+            <default-value>0</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="255"/>
+              <stepper value="1"/>
+              <measurement value=""/>
+              <valuetype value="W"/>
+            </options>
+          </parameter>
+          <parameter name="Color Camera Mode" id="2385" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9636">Color Camera Mode</title>
+            <desc text-id="9636">Color Camera Mode</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="1211">Default</caption>
+              </option>
+              <option value="1">
+                <caption text-id="4058">Continuous Mode</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Non Decode Event" id="2075" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="8061">Non Decode Event</title>
+            <desc text-id="8061">Non Decode Event</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="400">Disable</caption>
+              </option>
+              <option value="1">
+                <caption text-id="8062">Transmit to Host</caption>
+              </option>
+              <option value="2">
+                <caption text-id="8063">Transmit to Color Camera</caption>
+              </option>
+              <option value="3">
+                <caption text-id="8064">Transmit to Host and Color Camera</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Non Decode Event Threshold" id="2076" value-type="B" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="8065">Non Decode Event Threshold</title>
+            <desc text-id="8065">Non Decode Event Threshold</desc>
+            <default-value>70</default-value>
+            <options data-type="RANGE">
+              <min value="1"/>
+              <max value="250"/>
+              <stepper value="1"/>
+              <measurement value=""/>
+              <valuetype value="B"/>
+            </options>
+          </parameter>
+          <parameter name="Decode Range Limit" id="1950" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="6451">Decode Range Limit</title>
+            <desc text-id="6451">Decode Range Limit</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="400">Disable</caption>
+              </option>
+              <option value="11">
+                <caption text-id="1145">Standard</caption>
+              </option>
+              <option value="22">
+                <caption text-id="1877">Near</caption>
+              </option>
+              <option value="7">
+                <caption text-id="1876">Far</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Extended Timeout Between Decodes, 2D Same Symbol" id="2367" value-type="B" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="9634">Extended Timeout Between Decodes, 2D Same Symbol</title>
+            <desc text-id="9634">Extended Timeout Between Decodes, 2D Same Symbol</desc>
+            <default-value>3</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="99"/>
+              <stepper value="1"/>
+              <measurement value="x100ms"/>
+              <valuetype value="B"/>
+            </options>
+          </parameter>
+          <parameter name="Lock Parameter Scanning" id="802" value-type="W" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="1951">Lock Parameter Scanning</title>
+            <desc text-id="2053">Enter 4 digit numeric lock code</desc>
+            <default-value>0</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="9999"/>
+              <stepper value="1"/>
+              <measurement value=""/>
+              <valuetype value="W"/>
+            </options>
+          </parameter>
+          <parameter name="Unlock Parameter Scanning" id="803" value-type="W" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="1952">Unlock Parameter Scanning</title>
+            <desc text-id="2057">Enter 4 digit numeric unlock code.  It must be the same values as used to lock the scanner.</desc>
+            <default-value>0</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="9999"/>
+              <stepper value="1"/>
+              <measurement value=""/>
+              <valuetype value="W"/>
+            </options>
+          </parameter>
+          <parameter name="Rescan Beep" id="2382" value-type="B" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="9596">Rescan Beep</title>
+            <desc text-id="9596">Rescan Beep</desc>
+            <default-value>0</default-value>
+            <options data-type="RANGE">
+              <min value="0"/>
+              <max value="255"/>
+              <stepper value="1"/>
+              <measurement value=""/>
+              <valuetype value="B"/>
+            </options>
+          </parameter>
+          <parameter name="Motion Detect Mode" id="2377" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9592">Motion Detect Mode</title>
+            <desc text-id="9592">Motion Detect Mode</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="301">Auto</caption>
+              </option>
+              <option value="1">
+                <caption text-id="9594">Object Detect</caption>
+              </option>
+              <option value="2">
+                <caption text-id="7986">Scene Detect</caption>
+              </option>
+              <option value="3">
+                <caption text-id="9595">IR Detect</caption>
+              </option>
+            </options>
+          </parameter>
+        </group>
+        <group name="Beeper" id="0">
+          <style ui-type="DEFAULT" show-title="false" show-desc="false" indent="false"/>
+          <title text-id="1136">Beeper</title>
+          <desc text-id="-1">
+          </desc>
+          <parameter name="Beeper Volume" id="140" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="865">Beeper Volume</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>3</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="297">High</caption>
+              </option>
+              <option value="1">
+                <caption text-id="296">Medium</caption>
+              </option>
+              <option value="2">
+                <caption text-id="295">Low</caption>
+              </option>
+              <option value="3">
+                <caption text-id="9640">Auto Volume</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Beeper Tone" id="145" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="3190">Beep Tone</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="297">High</caption>
+              </option>
+              <option value="1">
+                <caption text-id="296">Medium</caption>
+              </option>
+              <option value="2">
+                <caption text-id="295">Low</caption>
+              </option>
+              <option value="3">
+                <caption text-id="293">OFF</caption>
+              </option>
+              <option value="4">
+                <caption text-id="1137">Medium to High (2-tone)</caption>
+              </option>
+              <option value="6">
+                <caption text-id="2933">Tone 1 - Wood Block</caption>
+              </option>
+              <option value="7">
+                <caption text-id="2934">Tone 2 - Pulse</caption>
+              </option>
+              <option value="8">
+                <caption text-id="2935">Tone 3 - Chime</caption>
+              </option>
+              <option value="9">
+                <caption text-id="2936">Tone 4 - Zap</caption>
+              </option>
+              <option value="10">
+                <caption text-id="2937">Tone 5 - Triple Beep</caption>
+              </option>
+              <option value="11">
+                <caption text-id="2949">Tone 6 - User Programmable</caption>
+              </option>
+            </options>
+          </parameter>
+          <group name="ScanBeepTone" id="0">
+            <style ui-type="SCAN-TONE" show-title="true" show-desc="true" indent="false"/>
+            <title text-id="3096">Set Custom Scan Tone</title>
+            <desc text-id="3097">“Tone 6 – User Programmable Tone”</desc>
+            <parameter name="ScanToneBuffer" id="5016" value-type="A" permission="R W P">
+              <style ui-type="TONE"/>
+              <title text-id="3098">ScanToneBuffer</title>
+              <desc text-id="3098">ScanToneBuffer</desc>
+              <default-value>0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF</default-value>
+              <options data-type="OTHER">
+                <option value="0">
+                  <caption text-id="3099">65501</caption>
+                </option>
+                <option value="1">
+                  <caption text-id="3100">Wav Files (*.wav, *.wave)|*.wav; *.wave</caption>
+                </option>
+                <option value="2">
+                  <caption text-id="3621">52494646........57415645666d7420........01000100803e0000007d000002001000</caption>
+                </option>
+                <option value="3">
+                  <caption text-id="3102">5017</caption>
+                </option>
+                <option value="4">
+                  <caption text-id="3103">6024</caption>
+                </option>
+                <option value="5">
+                  <caption text-id="3104">145</caption>
+                </option>
+                <option value="6">
+                  <caption text-id="3105">11</caption>
+                </option>
+                <option value="7">
+                  <caption text-id="3106">The selected audio file does not meet the audio file requirements of file format (.wav), sampling rate (16kHz) or sample size (16 bits).</caption>
+                </option>
+              </options>
+            </parameter>
+            <parameter name="Scan Tone Name" id="5018" value-type="S" permission="R W P">
+              <style ui-type="TEXT"/>
+              <title text-id="3107">Scan Tone Name</title>
+              <desc text-id="3108">A custom scan tone can only be loaded electronically, it cannot be loaded via programming barcodes </desc>
+              <default-value>No Custom Tone</default-value>
+              <options data-type="STRING">
+                <validation value=""/>
+                <choice value=""/>
+                <choice value=""/>
+                <info value=""/>
+              </options>
+            </parameter>
+          </group>
+          <parameter name="Beep After Good Decode" id="56" value-type="F" permission="R W P">
+            <style ui-type="TICKEX"/>
+            <title text-id="866">Beep After Good Decode</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>1</default-value>
+            <options data-type="FLAG">
+              <option value="0">
+                <caption text-id="566">Do Not Beep</caption>
+              </option>
+              <option value="1">
+                <caption text-id="1210">Beep</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Beeper Duration" id="628" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="1138">Beeper Duration</title>
+            <desc text-id="1138">Beeper Duration</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="1139">Short</caption>
+              </option>
+              <option value="1">
+                <caption text-id="296">Medium</caption>
+              </option>
+              <option value="2">
+                <caption text-id="1140">Long</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="LED on Good Decode" id="744" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="2945">LED on Good Decode</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>2</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="2632">Disable LED on Good Decode</caption>
+              </option>
+              <option value="2">
+                <caption text-id="2631">Enable LED on Good Decode</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Tone/Volume Button" id="1287" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9572">Tone/Volume Button</title>
+            <desc text-id="9572">Tone/Volume Button</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="9574">Disable Tone, Disable Volume</caption>
+              </option>
+              <option value="1">
+                <caption text-id="9575">Enable Tone, Enable Volume</caption>
+              </option>
+              <option value="2">
+                <caption text-id="9576">Disable Tone, Enable Volume</caption>
+              </option>
+              <option value="3">
+                <caption text-id="9577">Enable Tone, Disable Volume</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Suppress Power Up Beeps" id="721" value-type="F" permission="R W P">
+            <style ui-type="TICKEX"/>
+            <title text-id="1527">Suppress Power Up Beeps</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>0</default-value>
+            <options data-type="FLAG">
+              <option value="0">
+                <caption text-id="1710">Do Not Suppress Power-Up Beeps</caption>
+              </option>
+              <option value="1">
+                <caption text-id="1711">Suppress Power-Up Beeps</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Audio Output" id="2359" value-type="F" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9598">Audio Output</title>
+            <desc text-id="9598">Audio Output</desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="1443">Internal</caption>
+              </option>
+              <option value="1">
+                <caption text-id="1444">External</caption>
+              </option>
+            </options>
+          </parameter>
+        </group>
+        <group name="Statistics" id="0">
+          <style ui-type="DEFAULT" show-title="true" show-desc="true" indent="true"/>
+          <title text-id="2125">Statistics</title>
+          <desc text-id="-1">
+          </desc>
+          <group name="SlowestImageCode" id="0">
+            <style ui-type="SLOWEST-IMAGE-CODE-GROUP" show-title="true" show-desc="true" indent="true"/>
+            <title text-id="4853">Save Image of Slowest Decodes
+            </title>
+            <desc text-id="4854">Feature not supported. To use this feature please update 123Scan to version 4.5 or above.
+            </desc>
+            <parameter name="codeList" id="1755" value-type="A" permission="R W P">
+              <style ui-type="SLOWEST-IMAGE-CODE-PARAMETER"/>
+              <title text-id="4853">Save Image of Slowest Decodes
+              </title>
+              <desc text-id="4854">Feature not supported. To use this feature please update 123Scan to version 4.5 or above.
+              </desc>
+              <default-value>0x1f 0x4e</default-value>
+              <options data-type="OTHER">
+                <option value="0x30 0x8e">
+                  <caption text-id="257">1</caption>
+                </option>
+                <option value="0x3d 0x3c">
+                  <caption text-id="4858">UPC</caption>
+                </option>
+                <option value="0x44 0x3c">
+                  <caption text-id="4859">EAN/JAN</caption>
+                </option>
+                <option value="0x4b 0x3c">
+                  <caption text-id="313">Code 39</caption>
+                </option>
+                <option value="0x52 0x3c">
+                  <caption text-id="312">Code 128</caption>
+                </option>
+                <option value="0x59 0x3c">
+                  <caption text-id="4860">2 of 5</caption>
+                </option>
+                <option value="0x60 0x3c">
+                  <caption text-id="4861">Codebar</caption>
+                </option>
+                <option value="0x67 0x3c">
+                  <caption text-id="887">Code 93</caption>
+                </option>
+                <option value="0x6e 0x3c">
+                  <caption text-id="68">MSI</caption>
+                </option>
+                <option value="0x75 0x3c">
+                  <caption text-id="332">Code 11</caption>
+                </option>
+                <option value="0x7c 0x3c">
+                  <caption text-id="72">PDF</caption>
+                </option>
+                <option value="0x83 0x3c">
+                  <caption text-id="9207">Datamatrix</caption>
+                </option>
+                <option value="0x8a 0x3c">
+                  <caption text-id="4862">QR</caption>
+                </option>
+                <option value="0x91 0x3c">
+                  <caption text-id="4863">Postal Codes</caption>
+                </option>
+                <option value="0x98 0x3c">
+                  <caption text-id="785">GS1 Databar</caption>
+                </option>
+                <option value="0x9f 0x3c">
+                  <caption text-id="350">Composite</caption>
+                </option>
+                <option value="0xad 0x3c">
+                  <caption text-id="967">Aztec</caption>
+                </option>
+                <option value="0xa6 0x3c">
+                  <caption text-id="1561">OCR</caption>
+                </option>
+                <option value="0x2b 0x3d">
+                  <caption text-id="9208">Maxicode</caption>
+                </option>
+                <option value="0x39 0x3d">
+                  <caption text-id="3072">GS1-Datamatrix</caption>
+                </option>
+                <option value="0x40 0x3d">
+                  <caption text-id="3073">GS1-QR Code</caption>
+                </option>
+                <option value="0x32 0x3d">
+                  <caption text-id="4864">Coupon</caption>
+                </option>
+                <option value="0xab 0x3d">
+                  <caption text-id="4865">Digimarc UPC</caption>
+                </option>
+                <option value="0xb6 0x3d">
+                  <caption text-id="4866">Digimarc EAN/JAN</caption>
+                </option>
+                <option value="0xa0 0x3d">
+                  <caption text-id="4867">Digimarc Other</caption>
+                </option>
+                <option value="0xb4 0x3c">
+                  <caption text-id="4868">Other 1D</caption>
+                </option>
+                <option value="0xbb 0x3c">
+                  <caption text-id="4869">Other 2D</caption>
+                </option>
+                <option value="0xc2 0x3c">
+                  <caption text-id="4870">Other</caption>
+                </option>
+              </options>
+            </parameter>
+          </group>
+          <parameter name="Threshold" id="1756" value-type="W" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="4871">Only Save Image Slower than</title>
+            <desc text-id="-1">
+            </desc>
+            <default-value>0</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="4872">No threshold</caption>
+              </option>
+              <option value="1">
+                <caption text-id="4873">75ms</caption>
+              </option>
+              <option value="2">
+                <caption text-id="4874">110ms</caption>
+              </option>
+              <option value="3">
+                <caption text-id="4875">170ms</caption>
+              </option>
+              <option value="4">
+                <caption text-id="4876">300ms</caption>
+              </option>
+              <option value="5">
+                <caption text-id="4877">600ms</caption>
+              </option>
+              <option value="6">
+                <caption text-id="4878">1000ms</caption>
+              </option>
+              <option value="7">
+                <caption text-id="4879">1500ms</caption>
+              </option>
+            </options>
+          </parameter>
+        </group>
+        <group name="EAS" id="0">
+          <style ui-type="DEFAULT" show-title="false" show-desc="false" indent="false"/>
+          <title text-id="9600">EAS</title>
+          <desc text-id="-1">
+          </desc>
+          <parameter name="EAS Operating Modes" id="977" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9601">EAS Operating Modes</title>
+            <desc text-id="9601">EAS Operating Modes</desc>
+            <default-value>8</default-value>
+            <options data-type="ENUM">
+              <option value="8">
+                <caption text-id="9603">EAS Disable Mode</caption>
+              </option>
+              <option value="0">
+                <caption text-id="2785">Sensormatic Auto</caption>
+              </option>
+              <option value="1">
+                <caption text-id="9604">Sensormatic Always Enable Deactivation</caption>
+              </option>
+              <option value="2">
+                <caption text-id="2480">Sensormatic Barcode Interlock</caption>
+              </option>
+              <option value="3">
+                <caption text-id="2481">Sensormatic Barcode Auto Interlock</caption>
+              </option>
+              <option value="4">
+                <caption text-id="9605">Sensormatic Hold Off</caption>
+              </option>
+              <option value="5">
+                <caption text-id="9606">Sensormatic Scan Enable Interlock</caption>
+              </option>
+              <option value="6">
+                <caption text-id="2196">Checkpoint Barcode Interlock</caption>
+              </option>
+              <option value="7">
+                <caption text-id="9607">Checkpoint Scan Enable Interlock</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Sensormatic Request Communications Message" id="978" value-type="F" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9608">Sensormatic Request Communications Message</title>
+            <desc text-id="9608">Sensormatic Request Communications Message</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="9610">Disable Sensormatic Request Communications</caption>
+              </option>
+              <option value="1">
+                <caption text-id="9611">Enable Sensormatic Request Communication</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Sensormatic EAS Deactivation" id="979" value-type="F" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9612">Sensormatic EAS Deactivation</title>
+            <desc text-id="9612">Sensormatic EAS Deactivation</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="9614">Sensormatic Disable EAS Deactivation</caption>
+              </option>
+              <option value="1">
+                <caption text-id="9615">Sensormatic Enable EAS Deactivation</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Sensormatic EAS Tag Detected Any Time Beep" id="980" value-type="F" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9616">Sensormatic EAS Tag Detected Any Time Beep</title>
+            <desc text-id="9616">Sensormatic EAS Tag Detected Any Time Beep</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="9618">Disable Detected Any Time Beep</caption>
+              </option>
+              <option value="1">
+                <caption text-id="9619">Enable Detected Any Time Beep</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Sensormatic Soft Tag Beeps" id="984" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9626">Sensormatic Soft Tag Beeps</title>
+            <desc text-id="9626">Sensormatic Soft Tag Beeps</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="9628">Disable Soft Tag Beep</caption>
+              </option>
+              <option value="1">
+                <caption text-id="2207">Soft Tag Beep 1</caption>
+              </option>
+              <option value="2">
+                <caption text-id="2208">Soft Tag Beep 2</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Sensormatic Hard Tag Beeps" id="985" value-type="B" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9629">Sensormatic Hard Tag Beeps</title>
+            <desc text-id="9629">Sensormatic Hard Tag Beeps</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="9631">Disable Hard Tag Beep</caption>
+              </option>
+              <option value="1">
+                <caption text-id="2210">Hard Tag Beep 1</caption>
+              </option>
+              <option value="2">
+                <caption text-id="2211">Hard Tag Beep 2</caption>
+              </option>
+            </options>
+          </parameter>
+          <parameter name="Sensormatic Deactivation Timeout" id="982" value-type="B" permission="R W P">
+            <style ui-type="RANGE"/>
+            <title text-id="9624">Sensormatic Deactivation Timeout</title>
+            <desc text-id="9624">Sensormatic Deactivation Timeout</desc>
+            <default-value>10</default-value>
+            <options data-type="RANGE">
+              <min value="1"/>
+              <max value="29"/>
+              <stepper value="1"/>
+              <measurement value="x sec"/>
+              <valuetype value="B"/>
+            </options>
+          </parameter>
+          <parameter name="Checkpoint Interlock Polarity" id="983" value-type="F" permission="R W P">
+            <style ui-type="COMBO"/>
+            <title text-id="9632">Checkpoint Interlock Polarity</title>
+            <desc text-id="9632">Checkpoint Interlock Polarity</desc>
+            <default-value>1</default-value>
+            <options data-type="ENUM">
+              <option value="0">
+                <caption text-id="2205">Active Low</caption>
+              </option>
+              <option value="1">
+                <caption text-id="2204">Active High</caption>
+              </option>
+            </options>
+          </parameter>
+        </group>
+      </group>
+    </group>
