@@ -48,39 +48,41 @@ function regenerateXml(byteArray) {
 // Set parameter------------------------------------------------------------------
 function SetParameter(id,type,property,value) {
     console.log(`Setting parameter: ID = ${id},Type = ${type},Property = ${property}, Value = ${value}`);
+    if(com_interface==USB_HID){
     ATT_Set_USB(id,type,property,value);
-  
-   
+    }
+    else if(com_interface==SERIAL){
+    ATT_Set_Serial(id,type,property,value);
+    }
 }
 
 // Set N th parameter form XML---------------------------------------------------
 function Set_Nth_Parameter_fromXML(xml,n) {
-    console.log("Set config:",n);
+
     let parser = new DOMParser();
     let xmlDoc = parser.parseFromString(xml, "application/xml");
 
     let parameters = xmlDoc.getElementsByTagName("parameter");
-
-    if (n > 0 && n <= parameters.length) {
+        console.log("Parameters:",parameters);
+        console.log("Get Parameters:",n);
         let param = parameters[n - 1];
+        console.log("param",param);
+
         let id = param.getAttribute("id");
         let type = param.getAttribute("type");
         let value = param.getAttribute("value");
         SetParameter(id,type,0,value);
-    } else {
-        //WebScannerAlert("No Updated parameters");
-        UpdateDeviceConfigurations=false; 
-    }
+    
+      
+    
 }
 
 // Update Configurations-------------------------------------------------------
 
 SetConfiguration_Adv_Button.addEventListener('click', async () => {
-
-  await generateXml();
-
-   
-  
+   Startloading()
+   setTimeout(CloseLoading, 500);
+   SendAttributes();
   });
 
 
@@ -150,9 +152,9 @@ function displayParameterNames(xmlDoc) {
     });
 }
 
-function generateXml() {
+function SendAttributes() {
     const formGroups = document.querySelectorAll('.form-group');
-    let config_xml = `<parameters>\n`;
+    config_xml = `<parameters>\n`;
 
     formGroups.forEach(group => {
         const input = group.querySelector('select, input[type="range"], input[type="number"], input[type="checkbox"], input[type="text"]');
@@ -177,7 +179,7 @@ function generateXml() {
     config_xml += `</parameters>`;
      
 
-    console.log(config_xml);
+     console.log(config_xml);
     if(com_interface==USB_HID){
       UpdateConfiguration_USB(config_xml)
     

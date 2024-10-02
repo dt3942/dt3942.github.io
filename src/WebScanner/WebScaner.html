@@ -5,15 +5,15 @@
     <link rel="icon" type="image/ico" href="Styles/img/Zebra_logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zebra Web Scanner </title>
-    <link rel="stylesheet" href="Styles/css/styles.css">
-    <link rel="stylesheet" href="Styles/css/actions.css">
-    <link rel="stylesheet" href="Styles/css/device_info.css">
-    <link rel="stylesheet" href="Styles/css/barcode-section.css">
-    <link rel="stylesheet" href="Styles/css/rsm-section.css">
-    <link rel="stylesheet" href="Styles/css/firmware-update.css">
-    <link rel="stylesheet" href="Styles/css/stat-section.css">
-    <link rel="stylesheet" href="Styles/css/update_device_info.css">
-    <link rel="stylesheet" href="Styles/css/tab2.css">
+    <link rel="stylesheet" href="Styles/css/app/styles.css">
+    <link rel="stylesheet" href="Styles/css/app/actions.css">
+    <link rel="stylesheet" href="Styles/css/Tab1/device_info.css">
+    <link rel="stylesheet" href="Styles/css/Tab1/barcode-section.css">
+    <link rel="stylesheet" href="Styles/css/Tab1/rsm-section.css">
+    <link rel="stylesheet" href="Styles/css/Tab1/firmware-update.css">
+    <link rel="stylesheet" href="Styles/css/Tab1/stat-section.css">
+    <link rel="stylesheet" href="Styles/css/Tab1/update_device_info.css">
+    <link rel="stylesheet" href="Styles/css/Tab2/tab2.css">
 
 </head>
 <body>
@@ -249,13 +249,11 @@
             <div id="Tab2-maincontent" class="Tab2-maincontent">
 
                 <div class="container">
-                    <button onclick="document.getElementById('file-input').click()">Upload .scndef File</button>
-                    <input type="file" id="file-input" accept=".scndef" style="display: none;" onchange="handleFileUpload(event)">
-                    
+               
                     <!-- Top section with General information -->
                     <div class="header-section">
-                        <h1>General</h1>
-                        <p>The parameters below are general scanner settings and user preferences. <br>Click on blue links below for faster parameter list navigation.</p>
+                        <h2>General Section</h2>
+                    
                     </div>
                 
                     <!-- Content section with navigation and form -->
@@ -828,9 +826,10 @@
                             
                         </div>
                     </div>
+                    <button class="config_update"  id="updateConfiguration">Update</button>
                 </div>
                 
-                <button id="updateConfiguration">Generate XML</button>
+                
                 <div id="xmlOutput" class="xml-output"></div>
                 
             
@@ -855,7 +854,7 @@
 
     <div id="loading">
        
-        <img src="Styles/img/Loading4.gif" alt="Zebra Logo" class="img2">
+        <img src="Styles/img/loading4.gif" alt="Zebra Logo" class="img2">
     </div>
 
     
@@ -870,6 +869,7 @@
 
     <script src="Scripts/js/Common/Common.js"></script>
     <script src="Scripts/js/Device_Configuration_basic/RSM_Command_Handling_USB.js"></script>
+    <script src="Scripts/js/Device_Configuration_basic/RSM_Command_Handling_IBM.js"></script>
     <script src="Scripts/js/Device_Configuration_basic/RSM_command_handling_Serial.js"></script>
     <script src="Scripts/js/Device_Connections/Device_connections_USB.js"></script>
     <script src="Scripts/js/Device_Connections/Device_Connections_Serial.js"></script>

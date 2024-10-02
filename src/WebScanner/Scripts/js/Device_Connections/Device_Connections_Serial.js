@@ -39,7 +39,7 @@ async function Connect_Device_Serial(){
           buffer = appendBuffer(buffer, value);
           
           if (buffer.length == buffer[0]+2) {
-              console.log("Received:", buffer);
+              console.log('Recived:', Array.from(buffer).map(byte => byte.toString(16).padStart(2, '0').toUpperCase()).join(' '));
 
 
               if(firmware_update==true){
@@ -48,8 +48,12 @@ async function Connect_Device_Serial(){
               else if(DeviceInfoUpdate){
                 Responce_DeviceInfo_Update_Serial(buffer);
               }
+              else if(UpdateDeviceConfigurations){
+                Update_Device_Config_Responce_USB(data,reportId);
+              }
+
               else{
-              ProcessRSMCommandsSerial(buffer);
+                ProcessRSMCommandsSerial(buffer);
               }
               buffer = new Uint8Array(); 
           }

@@ -32,7 +32,7 @@
 
     .Tab2-maincontent{
       position: relative;
-      display: none;
+       display: none;
       flex-direction: column;
     }
 
@@ -67,6 +67,7 @@
   /* Left-side navigation and form layout */
   .content-section {
       display: flex;
+      width: 60%;
   }
   .nav-section {
       flex-basis: 20%;
@@ -75,8 +76,8 @@
       margin-right: 20px;
   }
   .nav-section h3 {
-      font-size: 16px;
-      color: #333;
+      font-size: 50px;
+      color: #ad2d2d;
       margin-bottom: 15px;
   }
   .nav-section ul {
@@ -89,7 +90,7 @@
   .nav-section ul li a {
       text-decoration: none;
       color: #007bff;
-      font-size: 14px;
+      font-size: 20px;
       max-width: 100px; /* Sets the width to fit the text */
       padding: 25px; /* Adjust padding to control hover area */
   }
@@ -98,6 +99,7 @@
   }
   .form-section {
       flex-grow: 1; /* Allow the form section to grow */
+      left: 0px;
   }
   
   .form-group {
@@ -140,3 +142,27 @@
       white-space: pre;
       font-family: monospace;
   }
+
+
+
+  .config_update {
+    position: fixed;
+    right: 2%;
+    top: 86%;
+    margin: 10px 0 20px 0; 
+    width: 120px;   
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #5fa0e6; 
+    border-radius: 5px; 
+    background-color: #476dcd; 
+    color: #f3f7fa; 
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.config_update:hover {
+    background-color: #1b52d0;
+}

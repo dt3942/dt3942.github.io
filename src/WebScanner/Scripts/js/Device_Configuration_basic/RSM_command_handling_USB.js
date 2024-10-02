@@ -314,9 +314,14 @@ async function ATT_SetStore_USB(id,type,property,value,cmd){
 //Switch to host mode --------------------------------------------
 async function SwitchHostMode_USB(){
 
+  if(Connected_device==USB_HIDKB){
+    switchHost_USBHIDKB(0);
+  }
+  else{
   switchHostmodeEnable=true;
   await EnableSwitchhost();
   await ATT_Get_USB(135);
+  }
 
 }
 async function EnableSwitchhost(){
@@ -359,6 +364,24 @@ function processswitchHostMode(){
 
 
 }
+
+async function switchHost_USBHIDKB(Hostmode) {
+  if (!device) {
+    console.log("Device not connected.");
+    return;
+  }
+
+  const Data = [0x02, 0x00, 0x00];  
+  const reportId = 0x80;  
+
+  try {
+    await device.sendFeatureReport(0x80, new Uint8Array([0x02]));
+    console.log("Data Sent (USB):", reportId, Data.map(byte => '0x' + byte.toString(16).padStart(2, '0')));
+  } catch (error) {
+    console.error("Error sending report:", error);
+  }
+}
+
 // Send 32 bits data packet----------------------------------------------------
 async function SendData_32pckt(data){
   if (!device) {
@@ -548,6 +571,10 @@ async function ATT_SetStore_Responce_USB(data,reportID,cmd){
   }
 
 }
+
+
+
+
 
 
  

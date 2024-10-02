@@ -40,9 +40,8 @@ function ProcessRSMCommandsSerial(data){
           return;}
 
         if(datalen <240){
-          intarray=data.slice(4, datalen+3);
+          intarray=data.slice(4, datalen+2);
           paramValue = Array.from(intarray, byte => '0x' + byte.toString(16).padStart(2, '0').toUpperCase());
-          console.log("param_val:",paramValue);
           pckt_offset_serial=0;
           PostProcesssesParameterDataSerial();
 
@@ -57,7 +56,7 @@ function ProcessRSMCommandsSerial(data){
       else if(data[6]==0x04){
          
         if((datalen <240)){
-          intarray=data.slice(17, datalen+3);
+          intarray=data.slice(17, datalen+2);
           Array.from(intarray, byte => paramValue.push('0x' + byte.toString(16).padStart(2, '0').toUpperCase()));
           PostProcesssesParameterDataSerial();
           pckt_offset_serial=0;
@@ -132,7 +131,8 @@ async function GetOffsetSerial(offset){
 
       if (datatoWrite && SerialWriter) {  
           await SerialWriter.write(new Uint8Array(datatoWrite));
-          console.log('Sent:', new Uint8Array(datatoWrite));
+          console.log('Sent:', Array.from(new Uint8Array(datatoWrite)).map(byte => byte.toString(16).padStart(2, '0').toUpperCase()).join(' '));
+
       } else {
           console.log('No data to send or writer not initialized.');   
       }
@@ -189,12 +189,10 @@ async function Request_parameterSerial(param_num){
         break;
       case 'D':
         paramValue=paramValue.slice(8)
-        paramValue=paramValue.slice(0,-1)
         paramValueStr=hexToDWord(paramValue);   
         break;
       case 'F':
         paramValue=paramValue.slice(8);
-        paramValue=paramValue.slice(0,-1);
         console.log(paramValue);
         paramValueStr=flagval(paramValue)  ;   
         break;
@@ -278,9 +276,6 @@ async function ATT_SetStore_Serial(id,type,property,value,cmd){
 
  }
  
- 
-
-
  console.log(byteArray);
 
  let array_len=byteArray.length+8
@@ -303,7 +298,7 @@ async function ATT_SetStore_Serial(id,type,property,value,cmd){
 
     if (datatoWrite && SerialWriter) {  
         await SerialWriter.write(new Uint8Array(datatoWrite));
-        console.log('Sent:', new Uint8Array(datatoWrite));
+        console.log('Sent:', Array.from(new Uint8Array(datatoWrite)).map(byte => byte.toString(16).padStart(2, '0').toUpperCase()).join(' '));
         
     } else {
         console.log('No data to send or writer not initialized.');   
@@ -453,17 +448,14 @@ async function EnableSwitchhostSerial(){
 async function processswitchHostMode_Serial(){
 
   let hexArray = paramValueStr.split(' ').map(hex => parseInt(hex, 16));
-  hexArray=hexArray.slice(13);
-  console.log(hexArray);
-
-
- 
+  hexArray=hexArray.slice(10);
+  hexArray[7]= 0x01;    //CurrentHostMode;
   let prependArray = [
-    0x5F, 0x80, 0x04, 0x00,0x00, 0x5D, 0x05, 0x00, 0x00,
-    0x87, 0x41, 0x00, 0x00, 0x00, 0x50, 0x00, 0x00,];
+    0x61, 0x80, 0x04, 0x00,0x00, 0x5D, 0x05, 0x00, 0x00,
+    0x87, 0x41, 0x07, 0x20, 0x00, 0x50, 0x00, 0x00,];
    let datatoWrite = prependArray.concat(hexArray);
-    datatoWrite[23]=CurrentHostMode;
-
+    
+     console.log(datatoWrite);
     const checksum= getChecksum(new Uint8Array(datatoWrite));
     datatoWrite=datatoWrite.concat(checksum[0]);
     datatoWrite=datatoWrite.concat(checksum[1]);
@@ -474,7 +466,8 @@ async function processswitchHostMode_Serial(){
 
     if (datatoWrite && SerialWriter) {  
         await SerialWriter.write(new Uint8Array(datatoWrite));
-        console.log('Sent:', new Uint8Array(datatoWrite));
+        console.log('Sent:', Array.from(new Uint8Array(datatoWrite)).map(byte => byte.toString(16).padStart(2, '0').toUpperCase()).join(' '));
+
         
     } else {
         console.log('No data to send or writer not initialized.');   

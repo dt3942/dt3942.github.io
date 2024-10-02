@@ -17,7 +17,7 @@
 **********************************************************************/
 async function Responce_DeviceInfo_Update_Serial(data){
     await ATT_SetStore_Responce_Serial(data,0x06);
-    updateProgressbar2(startIndex_ATT_SetStore+Pcktoffset240pckt,value_ATT_SetStore.length);
+    updateProgressbar2(startIndex_ATT_SetStore,value_ATT_SetStore.length);
     
     if(EndDeviceinforUpdate){
         console.log("inside1")

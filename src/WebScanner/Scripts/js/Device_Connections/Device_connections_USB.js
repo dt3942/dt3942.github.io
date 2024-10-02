@@ -99,10 +99,19 @@ async function Connect_Device_USB(){
 
   
     try {
-      if( Connected_device == USB_HIDKB | Connected_device == USB_IBMHID  ){
-          WebScannerAlert(`No command interface detected in the scanner ${Connected_device}`);
+       if(Connected_device == USB_IBMHID){
+         WebScannerAlert("USB-IBMHID is not support");
+         return;
+       }
+    
+        else if(Connected_device == USB_HIDKB){
+          device =devices[0];
+          await device.open(); 
+          HostVarientDropdown.disabled=false;
+          SwitchHostButton.disabled=false
           return;
-      }
+
+       }
      
         const dropdown = document.getElementById('device-dropdown');
         const selectedDeviceIndex = dropdown.value;
@@ -135,11 +144,23 @@ async function Connect_Device_USB(){
 
 }
 
-//Handle Interrupt Report-----------------------------------------------------------------------------------
+//Handle Interrupt Report------------------------------------------------------------------
 function handleInputReport(event){
- 
+
+  if(Connected_device==USB_IBMHID){
+    handleInputReport_IBMHID(event);
+
+  }
+  else{
+    handleInputReport_SNAPI(event);
+
+  }
+}
+//Handle Interrupt Report SNAPI------------------------------------------------------------
+function handleInputReport_SNAPI(event){
+
     const { data, reportId } = event;
-    console.log("Data Recived(USB):",reportId);
+    console.log("Data Recived(SNAPI):",reportId);
     printDataViewContent(data);
 
     if(firmware_update){
@@ -163,16 +184,49 @@ function handleInputReport(event){
     }
    
   }
-  //Process barcode data ------------------------------------------------------------------------------------
+
+  //Handle Interrupt Report IBMHID------------------------------------------------------------
+function handleInputReport_IBMHID(event){
+
+  const { data, reportId } = event;
+  console.log("Data Recived(SNAPI):",reportId);
+  printDataViewContent(data);
+
+  if(firmware_update){
+    
+    processFirmwareUpdate(data,reportId);
+  }
+  else if(DeviceInfoUpdate){
+    Responce_DeviceInfo_Update(data,reportId);
+  }
+
+  else if(UpdateDeviceConfigurations){
+    Update_Device_Config_Responce_USB(data,reportId);
+  }
+
+  else if(get_value_response && reportId == 0x27){     
+     get_value_response = false;
+     ProcessGetRSMCommandsUSB_IBM(data);
+  }
+  else if(data.getUint8(0) == 0x01 && reportId == 0x22){
+     processBarcodeData(data);
+  }
+ 
+}
+  //Process barcode data ----------------------------------------------------------------------------
   function processBarcodeData(data){
     
     let barcodeData = '';
     for (let i = 5; i < 5 + data.getUint8(2) ; i++) {
       barcodeData += String.fromCharCode(data.getUint8(i));
     }
+    const symbology=getBarcodeType(data.getUint8(4));
     const barcodeInput = document.getElementById('barcode-data');
+    const symbologyInput = document.getElementById('symbology-data');
     barcodeInput.type = 'text';
     barcodeInput.value = barcodeData;
+    symbologyInput.type = 'text';
+    symbologyInput.value = symbology;
   
   }
   
