@@ -1,0 +1,28 @@
+
+<parameters> 
+<parameter  id="140"  value="3"> </parameter> 
+<parameter  id="145"  value="1"></parameter>
+<parameter  id="1755" value="0x7c 0x3c"></parameter>
+</parameters> 
+
+async function switchHostModeSerial(){
+  //WebScannerAlert("Switch host mode is currenlty unavailable in Serial COM mode")
+  switchHostmodeEnable=true;
+  await EnableSwitchhostSerial();
+  await ATT_Get_Serial(135);
+}
+
+async function EnableSwitchhostSerial(){
+  ATT_Set_Serial(20010,'B',0x00,0x01);
+}
+
+
+function processswitchHostMode_Serial(){
+
+  let hexArray = paramValueStr.split(' ').map(hex => parseInt(hex, 16));
+  hexArray[16]=CurrentHostMode;
+  ATT_Set_Serial(135,0x41,0,hexArray);
+
+
+}
+  

@@ -64,6 +64,7 @@ fwLaunchButton.addEventListener('click', async () => {
    if(firmwareUpdateInProgress==true){
        firmwareUpdateInProgress=false; 
        WebScannerAlert("Firmware Update was aborted");
+       updateProgress(0,100);
    }
    else{
        WebScannerAlert("No firmware download in Progress");

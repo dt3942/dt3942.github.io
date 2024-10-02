@@ -1,7 +1,7 @@
 
 .action-button {
     margin: 10px 0 20px 0; 
-    width: 200px; 
+    width: 180px;   
     height: 40px;
     padding: 10px;
     border: 1px solid #5fa0e6; 
@@ -46,7 +46,7 @@
 
 
 select {
-    width: 200px; 
+    width: 180px; 
     height: 40px;
     padding: 10px;
     border: 1px solid #47494b; 

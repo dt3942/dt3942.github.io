@@ -1,0 +1,168 @@
+.parameter-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .parameter-name {
+    font-weight: bold;
+    margin-right: 20px;
+    padding-left: 20px;
+    width: 150px;
+  }
+  .parameter-dropdown select {
+    width: 250px;
+  }
+ 
+  .xml-output {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 1000px;}
+
+
+    .Tab2-status{
+      position: absolute;
+      top:300px;
+      left:35%;
+      color: gray;
+      z-index: 100;
+      display: block;
+    }
+
+    .Tab2-maincontent{
+      position: relative;
+       display: none;
+      flex-direction: column;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+  }
+  .container {
+      /* max-width: 1200px; */
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: auto; /* Ensure the container grows with the content */
+  }
+  /* Section at the top for the General header */
+  .header-section {
+      padding-bottom: 1px;
+  }
+  h1 {
+      font-size: 18px;
+      color: #333;
+  }
+  p {
+      font-size: 14px;
+      color: #666;
+  }
+
+  /* Left-side navigation and form layout */
+  .content-section {
+      display: flex;
+      width: 60%;
+  }
+  .nav-section {
+      flex-basis: 20%;
+      border-right: 1px solid #ddd;
+      padding-right: 15px;
+      margin-right: 20px;
+  }
+  .nav-section h3 {
+      font-size: 50px;
+      color: #ad2d2d;
+      margin-bottom: 15px;
+  }
+  .nav-section ul {
+      list-style-type: none;
+      padding: 0;
+  }
+  .nav-section ul li {
+      margin-bottom: 10px;
+  }
+  .nav-section ul li a {
+      text-decoration: none;
+      color: #007bff;
+      font-size: 20px;
+      max-width: 100px; /* Sets the width to fit the text */
+      padding: 25px; /* Adjust padding to control hover area */
+  }
+  .nav-section ul li a:hover {
+      color: orange;        
+  }
+  .form-section {
+      flex-grow: 1; /* Allow the form section to grow */
+      left: 0px;
+  }
+  
+  .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+  }
+  .form-group label {
+      flex-basis: 16%;
+      font-size: 14px;
+      color: #333;
+      text-align: left;
+      margin-right: 10px;
+  }
+  .form-group select {
+      flex-grow: 0; /* Do not allow the select box to grow */
+      width: auto; /* Allow the width to adjust automatically */
+      padding: 2px; /* Optional: Reduce padding */
+      font-size: 13px;
+      max-width: 200px; /* Ensure a maximum width */
+      height: auto; /* Allow the height to adjust automatically */
+  }
+  .form-group input[type="number"], 
+  .form-group input[type="checkbox"] {
+      flex: 0 0 auto; 
+      padding: 4px;
+      font-size: 13px;
+      margin-left: 0;
+  }
+  .form-group input[type="checkbox"] {
+      margin-top: 0;
+  }
+  .xml-output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      white-space: pre;
+      font-family: monospace;
+  }
+
+
+
+  .config_update {
+    position: fixed;
+    right: 2%;
+    top: 86%;
+    margin: 10px 0 20px 0; 
+    width: 120px;   
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #5fa0e6; 
+    border-radius: 5px; 
+    background-color: #476dcd; 
+    color: #f3f7fa; 
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.config_update:hover {
+    background-color: #1b52d0;
+}
