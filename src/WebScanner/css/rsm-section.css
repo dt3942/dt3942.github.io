@@ -1,0 +1,124 @@
+
+
+label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #959db0;
+    color: white;
+}
+
+#idTable tbody tr {
+    cursor: pointer;
+}
+.selected {
+    background-color: #b5b1b1;
+}
+
+.rsm-actions {
+    display: flex;
+    
+   gap: 10px;
+    left: 0px;
+}
+
+
+.set-button{
+    position: relative;
+    left: 70px;
+    width: 100px; 
+    height: 35px;
+    border: 1px solid #5e7bc4   ; 
+    border-radius: 5px; 
+    background-color: #5e7bc4; 
+    color: #f2f8fb; 
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.set-button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb
+
+}
+
+.set-button:disabled{
+
+    background-color: #dddfe4;
+    border: 1px solid #b8bcc0; 
+
+}
+.store-button{
+    position: relative;
+    left: 70px;
+    width: 100px; 
+    height: 35px;
+   
+    border: 1px solid #5e7bc4   ; 
+    border-radius: 5px; 
+    background-color: #5e7bc4; 
+    color: #f2f8fb; 
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.store-button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb
+
+}
+
+.store-button:disabled{
+
+    background-color: #dddfe4;
+    border: 1px solid #b8bcc0; 
+
+}
+
+.get-button{
+
+    width: 100px;
+    height: 35px;
+    padding: 10px;
+    border: 1px solid #5e7bc4;
+    border-radius: 5px; 
+    background-color: #5e7bc4; 
+    color: #f3f6f8; 
+    font-size: 12px;
+    cursor: pointer;  
+}
+
+.get-button:hover{
+    background-color: #587ef0;
+    color: #f2f8fb;
+}
+
+.get-button:disabled{
+
+    background-color: #dddfe4;
+    border: 1px solid #b8bcc0; 
+
+}

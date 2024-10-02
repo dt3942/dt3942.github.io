@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/ico" href="img/Zebra_logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zebra Web Scanner </title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/actions.css">
+    <link rel="stylesheet" href="css/device_info.css">
+    <link rel="stylesheet" href="css/barcode-section.css">
+    <link rel="stylesheet" href="css/rsm-section.css">
+    <link rel="stylesheet" href="css/firmware-update.css">
+    <link rel="stylesheet" href="css/stat-section.css">
+    <link rel="stylesheet" href="css/update_device_info.css">
+
+</head>
+<body>
+ <div class="Main-container">
+    <header>
+        <img src="img/logo.png" alt="Zebra Logo" class="logo">
+        <div  class="tab-container">
+        <button  class="tab-button" onclick="openTab(event, 'Tab1')">Main</button>
+        <button  class="tab-button" onclick="openTab(event, 'Tab2')">Device configuration</button>
+        <button class="logout">Logout</button>
+    </header>
+
+    <div class="body-conainer">
+        <div class="actions">
+
+    
+                <h2>Device Connection</h2>
+
+                <label for="com-dropdown">Type:</label>
+                <select id="com-dropdown" class="device-dropdown">
+                    <option value="" disabled selected>Select com interface</option>
+                    <option value="1" >USB</option>
+                    <option value="2" >Serial COM Port</option> 
+                    <option value="3" >Bluetooth</option>
+                  </select>
+                <button  id="discover-button"  class="action-button">Discover Scanners</button>
+
+                <label for="device-dropdown">Device:</label>
+                <select id="device-dropdown" class="device-dropdown">
+                    <option value="" disabled selected>Select a Scanner</option>
+                  </select>
+                  <button  id="connect-button"  class="action-button">Connect</button>
+
+
+                  <label for="host-varient-dropdown">Host Varient :</label>
+                  <select id="host-varient-dropdown" class="device-dropdown">
+                      <option value="" disabled selected>Select Host Varient</option>
+                      <option value="1" >USB-IBMHID</option>
+                      <option value="2" >USB-HIDKB</option> 
+                      <option value="3" >USB-OPOS</option>
+                      <option value="4" >USB-SNAPI With Imaging</option>
+                      <option value="5" >USB-CDC Serial Emulation</option>
+                      <option value="6" >USB-SSI orver CDC</option>
+                      <option value="7" >USB-IBMTT</option>
+                    </select>
+                   <button  id="switch-host-button"  class="action-button">Switch Host Mode</button>
+
+                   <button  id="reboot"  class="action-button">Reboot Device</button>
+  
+    
+                  <div class="output-status">
+                    <p   id="output"></p>
+                    </div>
+
+        </div>  
+        
+        
+        <div id="Tab1" class="tab-content">
+        <div class="functions">
+
+            <div class="device-info-section">
+
+               <div class="device-info1"> 
+                
+                <h2>Device Information</h2>
+                <ul>
+                    <li ><strong>Scanner Model &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> </li>
+                    <li ><strong>Serial Number  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> </li>
+                    <li ><strong>D.O.M  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;              :</strong> </li>
+                    <li ><strong>Firmware version  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      :</strong> </li>
+                    <li><strong>Configuration   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;       :</strong> </li>
+                </ul>
+               </div>
+
+               <div class="device-info2">  
+                <ul>
+                    <li id="scannerModel"> N/A</li>
+                    <li id="serialNum">N/A </li>
+                    <li id="dom"> N/A</li>
+                    <li id="firmware">N/A </li>
+                    <li id="config">N/A </li>
+               </div>
+
+               <div class="device-info-image">  
+                
+                <canvas class="canvas-image" id="Canvas" width="100" height="100"></canvas>
+                <img class="scanner-img" src="img/scaner.jpg" alt="Description of the image" width="200" height="200">
+               </div>
+            </div>
+
+            
+            <div class="scanner-configuration-section">
+
+                <div class="rsm-section">
+                    <h2>Scanner Configurations</h2>
+                <table id="idTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                <div class="rsm-actions">
+                    <button id="get-value" class="get-button" >Get Value </button>
+                    <input  id="get-value-input" type="text" placeholder="Get value">
+                    <button id="set-value" class="set-button" >Set value</button>
+                    <button id="store-value" class="store-button" >Store value</button>
+                </div>
+                </div>
+
+                <div class="fw-update-section">
+                    <h2> Device firmware</h2>
+                    <p> Firmware version:</p>
+                    <label >Update firmware </label>
+                <div class="input-group">
+                    <input type="text" id="filePath" placeholder="Browse...">
+                    <input type="file" id="fileInput">
+                </div>
+            
+                <div class="checkbox-group">
+                    <input type="checkbox" id="bulkUpdate">
+                    <p for= "checkbox">Bulk Update</p>
+                </div>
+            
+                <div class="button-group">
+                    <button id="button-update">Update</button>
+                    <button id="button-launch">Launch</button>
+                    <button id="button-abort">Abort</button>
+                   
+                </div>
+            
+                <div class="progress-bar">
+                    <div id="progressBar"  class="progress-bar-inner"></div>
+                </div>
+              
+                </div>
+              
+            </div>
+
+
+            <div class="data-view-section">
+
+                
+                <div class="barcode-data-section">
+                    <h2> Data View</h2>
+                    <label for="barcode-data">Barcode Data</label>
+                <input class="barcode-area" id="barcode-data"></input>
+              
+                </div>
+
+                <div class="symbology-section">
+                    <label for="barcode-data">Symbology</label>
+                    <input class="barcode-area" id="symbology-data"></input>
+              
+                </div>
+              
+              
+             </div>
+
+
+             <div class="statistical-information-section">
+
+                <div class="stat-section">
+                    <h2> Scanner Statistics</h2>
+                    <ul>
+                   
+                    <li><strong>Color Camera    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;         :</strong> </li>
+                    <li><strong>Power Up Count  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        :</strong> </li>
+                    <li><strong>Total Decode Count  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    :</strong> </li>
+                    <li><strong>Battery Stage of charge :</strong> </li>
+                    </ul>
+                </div>
+
+                <div class="stat-section2">  
+                    <ul>
+             
+                    <li id="camera">N/A</li>
+                    <li id="power-count">N/A</li>
+                    <li id="decode-count">N/A </li>
+                    <li id="battery">N/A</li>
+
+                    
+                   </div>
+    
+              
+             </div>
+
+             <div class="update-device-info-section">
+                <div class="update-device-infosection1">
+                    <h2> Update Device info</h2>
+                    <p> Select .scandef file </p>
+                    <div class="input-group2">
+                        <input type="text" id="filePath2" placeholder="Browse...">
+                        <input type="file" id="fileInput2">
+                    </div>
+                <button class="buttontype1" id="button-send-scandef">update</button>
+
+                <div class="progress-bar2">
+                    <div id="progressBar2"  class="progress-bar-inner2"></div>
+                </div>
+
+
+                </div>
+              </div>
+
+             <div class="spacer"></div>
+
+        </div>
+       </div>
+
+       <!-- Tab2--------------------------------------------------------------------------------------------------------------- -->
+
+
+       <div id="Tab2"  class="tab-content" style="display:none;">
+
+
+        <img src="img/new.png" alt="Zebra Logo" class="img">
+       </div>
+    </div>
+
+
+    <div id="overlay"></div>
+
+    <div id="custom-alert">
+    <p class="alert-title">Alert</p>
+    <p class="alert-msg">This is a custom alert message.</p>
+    <button onclick="closeCustomAlert()">OK</button>
+    </div>
+
+    <div id="loading">
+       
+        <img src="img/Loading4.gif" alt="Zebra Logo" class="img2">
+    </div>
+
+    
+    <footer>
+        <p>&copy; 2024 Zebra Technologies</p>
+    </footer>
+
+</div>
+
+    <script src="js/Common.js"></script>
+    <script src="js/RSM_HID.js"></script>
+    <script src="js/RSM_Serial.js"></script>
+    <script src="js/Webscanner.js"></script>
+    <script src="js/FirmwareDownload.js"></script>
+    <script src="js/deviceInfo_USB.js"></script>
+    
+</body>
+</html>
+
+

@@ -1,0 +1,16 @@
+
+.barcode{
+  
+    padding-left: 20px;
+    position: relative;
+    top: 0px;
+    left: 300px;   
+}
+
+.barcode-area{
+    width: 550px;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
