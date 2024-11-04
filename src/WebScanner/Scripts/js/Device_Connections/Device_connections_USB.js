@@ -220,7 +220,7 @@ function handleInputReport_IBMHID(event){
     for (let i = 5; i < 5 + data.getUint8(2) ; i++) {
       barcodeData += String.fromCharCode(data.getUint8(i));
     }
-    const symbology=getBarcodeType(data.getUint8(4));
+    const symbology=getBarcodeType(data.getUint8(3));
     const barcodeInput = document.getElementById('barcode-data');
     const symbologyInput = document.getElementById('symbology-data');
     barcodeInput.type = 'text';

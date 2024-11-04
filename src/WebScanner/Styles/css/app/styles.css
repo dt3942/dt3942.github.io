@@ -106,13 +106,6 @@ footer {
     left: 500px;
 }
 
-.Tab2content{
-    position: relative;
-    top: 100px;
-    left: 250px;
-    display: flex;
-    flex-direction: column;
-}
 
 
 
@@ -185,7 +178,7 @@ footer {
     background-color: #f8f8f9;
     margin: 0px 10px 10px 10px; 
     position: relative;
-    top: 0px;
+    top: 10px;
     left:260px;
     display: flex;
     width: 220px;

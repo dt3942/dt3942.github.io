@@ -364,6 +364,9 @@ function updateDeviceInfo() {
   if (strtup_count > 0 && strtup_count <= requestParams.length) {
     const { id, param } = requestParams[strtup_count - 1];
     document.getElementById(id).innerText = paramValueStr;
+    if(strtup_count==4){
+      document.getElementById("fw-version-fwup").innerText = "Firmware version :"+paramValueStr;
+    }
 
     if (com_interface === USB_HID) {
       ATT_Get_USB(param);
@@ -396,6 +399,8 @@ function updateDeviceInfo() {
     return;
   }
 }
+
+//update firmware version in fw update section
 
 // Enable buttons----------------------------------------------------------------------------
 function EnableButtons() {

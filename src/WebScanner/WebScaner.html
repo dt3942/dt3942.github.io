@@ -105,7 +105,6 @@
 
             
             <div class="scanner-configuration-section">
-
                 <div class="rsm-section">
                     <h2>Scanner Configurations</h2>
                 <table id="idTable">
@@ -131,7 +130,7 @@
 
                 <div class="fw-update-section">
                     <h2> Device firmware</h2>
-                    <p> Firmware version:</p>
+                    <p id="fw-version-fwup">Firmware version:</p>
                     <label >Update firmware </label>
                 <div class="input-group">
                     <input type="text" id="filePath" placeholder="Browse Firmware DAT File...">
@@ -270,7 +269,7 @@
                 
                         <!-- Main form section -->
                         <div class="form-section">
-                            <h3 id="system">System</h3><br>
+                            <h2 id="system">System</h2><br>
                             <div class="form-group" id="1281" default="0">
                                 <label for="pid-type">PID Type</label>
                                 <select id="pid-type" name="pid-type">
@@ -601,7 +600,7 @@
                             </div>
                             <br>
                             
-                            <h3 id="beeper">Beeper</h3><br>
+                            <h2 id="beeper">Beeper</h2><br>
                             
                             <div class="form-group" id="140" default="3">
                                 <label for="beeper-volume">Beeper Volume</label>
@@ -698,7 +697,7 @@
                             <br>
                             
                 
-                <h3 id="statistics">Statistics</h3><br>
+                <h2 id="statistics">Statistics</h2><br>
                 
                 <div class="form-group" id="1755" default="0x1f 0x4e">
                     <label for="code-list">Save Image of Slowest Decodes</label>
@@ -749,7 +748,7 @@
                 </div>
                 <br>
                 
-                <h3 id="eas">EAS</h3><br>
+                <h2 id="eas">EAS</h2><br>
                 
                 <div class="form-group" id="977" default="8">
                     <label for="eas-operating-modes">EAS Operating Modes</label>
@@ -870,7 +869,7 @@
     <script src="Scripts/js/Common/Common.js"></script>
     <script src="Scripts/js/Device_Configuration_basic/RSM_Command_Handling_USB.js"></script>
     <script src="Scripts/js/Device_Configuration_basic/RSM_Command_Handling_IBM.js"></script>
-    <script src="Scripts/js/Device_Configuration_basic/RSM_command_handling_Serial.js"></script>
+    <script src="Scripts/js/Device_Configuration_basic/RSM_command_Handling_Serial.js"></script>
     <script src="Scripts/js/Device_Connections/Device_connections_USB.js"></script>
     <script src="Scripts/js/Device_Connections/Device_Connections_Serial.js"></script>
     <script src="Scripts/js/Device_Connections/Device_Connections_Bluetooth.js"></script>
